@@ -42,70 +42,154 @@ const questions = [
     id: "strategy_goals",
     dimension: "strategy",
     text: "Has your leadership team defined clear business goals for AI adoption?",
+    options: [
+      "AI goals have not been discussed by leadership",
+      "AI is being discussed informally without clear goals",
+      "Some AI goals are identified but not documented",
+      "AI goals are documented and linked to business priorities",
+      "AI goals are measurable, funded, and reviewed by leadership",
+    ],
   },
   {
     id: "strategy_roadmap",
     dimension: "strategy",
     text: "Is there an AI roadmap linked to revenue, efficiency, customer experience, or risk reduction?",
+    options: [
+      "There is no AI roadmap",
+      "A roadmap is being explored but not defined",
+      "A basic roadmap exists for a few initiatives",
+      "The roadmap is structured and linked to business outcomes",
+      "The roadmap is funded, measured, and actively governed",
+    ],
   },
   {
     id: "data_access",
     dimension: "data",
     text: "How accessible and reliable is your business data for analytics or AI?",
+    options: [
+      "Data is fragmented, unreliable, or difficult to access",
+      "Some useful data exists but access is inconsistent",
+      "Key datasets are available with quality issues",
+      "Most critical data is reliable and accessible to teams",
+      "Data is trusted, connected, and ready for advanced AI use",
+    ],
   },
   {
     id: "data_governance",
     dimension: "data",
     text: "Do you have data governance practices such as ownership, quality checks, privacy, and security?",
+    options: [
+      "No formal data governance practices exist",
+      "Governance is handled case by case",
+      "Some ownership and quality checks are in place",
+      "Governance roles, privacy, and quality controls are defined",
+      "Governance is mature, monitored, and embedded across teams",
+    ],
   },
   {
     id: "usecase_identification",
     dimension: "useCases",
     text: "Have you identified business processes where AI can create measurable value?",
+    options: [
+      "No AI use cases have been identified",
+      "Teams have informal ideas but no evaluation method",
+      "A few potential use cases have been listed",
+      "Use cases are prioritized by value, feasibility, and risk",
+      "Use-case discovery is continuous and tied to measurable value",
+    ],
   },
   {
     id: "usecase_deployment",
     dimension: "useCases",
     text: "Are any AI use cases already piloted or deployed in your organization?",
+    options: [
+      "No pilots or deployments have started",
+      "Experiments are being discussed or planned",
+      "One or two pilots are running in limited areas",
+      "Several use cases are deployed with business ownership",
+      "AI use cases are scaled, monitored, and delivering measurable impact",
+    ],
   },
   {
     id: "tech_readiness",
     dimension: "technology",
     text: "Do your current systems support automation, analytics, or AI integration?",
+    options: [
+      "Systems are mostly manual or disconnected",
+      "Some systems support reporting but limited automation",
+      "Basic tools and integrations exist for selected teams",
+      "Core systems support automation, analytics, and integration",
+      "Technology stack is modern, API-ready, and scalable for AI",
+    ],
   },
   {
     id: "tech_adoption",
     dimension: "technology",
     text: "Are teams using AI-enabled tools in daily workflows?",
+    options: [
+      "Teams are not using AI-enabled tools",
+      "A few individuals are experimenting independently",
+      "Some teams use AI tools for basic productivity",
+      "AI tools are used in defined workflows across teams",
+      "AI tools are embedded, governed, and measured in daily operations",
+    ],
   },
   {
     id: "people_confidence",
     dimension: "people",
     text: "How confident are your employees in using AI tools responsibly and effectively?",
+    options: [
+      "Employees have very limited AI awareness",
+      "Employees are curious but unsure how to use AI safely",
+      "Some employees can use AI for simple tasks",
+      "Many employees use AI confidently within clear guidelines",
+      "Employees are skilled, responsible, and proactive AI users",
+    ],
   },
   {
     id: "people_training",
     dimension: "people",
     text: "Do you provide structured training on AI, data analytics, automation, or digital transformation?",
+    options: [
+      "No structured training is provided",
+      "Training is informal or occasional",
+      "Some general training is available to selected groups",
+      "Role-based training is planned and delivered regularly",
+      "Training is continuous, measured, and tied to adoption outcomes",
+    ],
   },
   {
     id: "governance_policy",
     dimension: "governance",
     text: "Do you have policies for responsible AI usage, data privacy, and cybersecurity?",
+    options: [
+      "No AI usage or risk policies exist",
+      "Basic privacy or cybersecurity policies exist but do not cover AI",
+      "Early AI guidelines exist for selected users or teams",
+      "Responsible AI, privacy, and cybersecurity policies are defined",
+      "Policies are mature, enforced, monitored, and regularly updated",
+    ],
   },
   {
     id: "governance_measurement",
     dimension: "governance",
     text: "Do you measure risks, outcomes, and adoption after AI initiatives are launched?",
+    options: [
+      "AI outcomes or risks are not measured",
+      "Measurement is informal and inconsistent",
+      "Basic success metrics are tracked for some initiatives",
+      "Business outcomes, adoption, and risks are regularly reviewed",
+      "Measurement is automated, transparent, and used for continuous improvement",
+    ],
   },
 ];
 
 const scale = [
-  { value: 1, label: "Not started" },
-  { value: 2, label: "Exploring" },
-  { value: 3, label: "Basic initiatives" },
-  { value: 4, label: "Structured and active" },
-  { value: 5, label: "Advanced and measurable" },
+  { value: 1 },
+  { value: 2 },
+  { value: 3 },
+  { value: 4 },
+  { value: 5 },
 ];
 
 const maturityLevels = [
@@ -250,11 +334,12 @@ function updateProgress() {
 
 function renderScaleOptions() {
   scaleOptions.replaceChildren();
+  const question = questions[state.currentQuestion];
 
   scale.forEach((option) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.innerHTML = `<strong>${option.value}</strong><span>${option.label}</span>`;
+    button.innerHTML = `<strong>${option.value}</strong><span>${question.options[option.value - 1]}</span>`;
     button.addEventListener("click", () => answerQuestion(option));
     scaleOptions.append(button);
   });
@@ -281,7 +366,7 @@ function answerQuestion(option) {
 
   answerPanel.hidden = true;
   state.answers[question.id] = option.value;
-  addMessage(`${option.value} - ${option.label}`, "user");
+  addMessage(`${option.value} - ${question.options[option.value - 1]}`, "user");
 
   state.currentQuestion += 1;
   updateProgress();

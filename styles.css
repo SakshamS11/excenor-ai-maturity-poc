@@ -317,13 +317,14 @@ textarea {
 }
 
 .scale-options button {
-  min-height: 86px;
+  min-height: 116px;
   padding: 12px;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
   background: #fff;
   cursor: pointer;
   text-align: left;
+  overflow-wrap: anywhere;
 }
 
 .scale-options button strong,
@@ -340,7 +341,7 @@ textarea {
 .scale-options button span {
   color: #334155;
   font-size: 12px;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 .scale-options button:hover {
