@@ -255,7 +255,7 @@ const resultPanel = document.querySelector("#resultPanel");
 const advisorPanel = document.querySelector("#advisorPanel");
 const advisorForm = document.querySelector("#advisorForm");
 const advisorInput = document.querySelector("#advisorInput");
-const latestAdvisorAnswer = document.querySelector("#latestAdvisorAnswer");
+const advisorThread = document.querySelector("#advisorThread");
 const progressFill = document.querySelector("#progressFill");
 const restartButton = document.querySelector("#restartButton");
 const saveStatus = document.querySelector("#saveStatus");
@@ -274,6 +274,22 @@ function formatAssistantText(text) {
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
     .replace(/__([^_]+)__/g, "<strong>$1</strong>")
     .replace(/\n/g, "<br>");
+}
+
+function appendAdvisorThreadMessage(text, sender, options = {}) {
+  advisorThread.hidden = false;
+  const message = document.createElement("div");
+  message.className = `advisor-thread-message ${sender}${options.thinking ? " thinking" : ""}`;
+
+  if (sender === "assistant") {
+    message.innerHTML = formatAssistantText(text);
+  } else {
+    message.textContent = text;
+  }
+
+  advisorThread.append(message);
+  advisorThread.scrollTop = advisorThread.scrollHeight;
+  return message;
 }
 
 function addMessage(text, sender = "assistant", options = {}) {
@@ -574,8 +590,12 @@ function createClientDemoReply(message) {
 
 async function askAdvisor(message) {
   addMessage(message, "user");
+  appendAdvisorThreadMessage(message, "user");
   const thinkingMessage = addMessage("Thinking through your maturity result...", "assistant", {
     transient: true,
+    thinking: true,
+  });
+  const advisorThinkingMessage = appendAdvisorThreadMessage("Thinking through your maturity result...", "assistant", {
     thinking: true,
   });
 
@@ -603,8 +623,8 @@ async function askAdvisor(message) {
   }
 
   thinkingMessage.remove();
-  latestAdvisorAnswer.hidden = false;
-  latestAdvisorAnswer.innerHTML = formatAssistantText(reply);
+  advisorThinkingMessage.remove();
+  appendAdvisorThreadMessage(reply, "assistant");
   addMessage(reply);
   persistLeadSnapshot("ai-response");
 }
@@ -623,8 +643,8 @@ function resetAssessment() {
   answerPanel.hidden = true;
   resultPanel.hidden = true;
   advisorPanel.hidden = true;
-  latestAdvisorAnswer.hidden = true;
-  latestAdvisorAnswer.textContent = "";
+  advisorThread.hidden = true;
+  advisorThread.replaceChildren();
   saveStatus.textContent = "Lead record will be saved after the assessment result.";
   updateProgress();
   addMessage(
