@@ -354,7 +354,7 @@ function updateProgress() {
   document.querySelector("#liveLevel").textContent =
     completed === questions.length
       ? "Assessment complete. Revealing your maturity score now."
-      : "Your score stays private until the final reveal.";
+      : "Building a readiness view across six AI maturity dimensions.";
   progressFill.style.width = `${progress}%`;
 
   Object.entries(dimensionScores).forEach(([key, dimension]) => {
@@ -648,7 +648,7 @@ function resetAssessment() {
   saveStatus.textContent = "Lead record will be saved after the assessment result.";
   updateProgress();
   addMessage(
-    "Welcome. I will assess your organization across strategy, data, use cases, technology, people capability, and governance. Share your details to begin."
+    "Welcome to the Excenor AI Maturity Assessment. This guided diagnostic will map your organization across strategy, data readiness, use-case maturity, technology, people capability, and governance to identify where AI can create measurable business value."
   );
 }
 
@@ -666,7 +666,7 @@ detailsForm.addEventListener("submit", (event) => {
 
   detailsForm.hidden = true;
   addMessage(
-    `Thanks, ${state.user.name}. I will now assess ${state.user.organization} in the ${state.user.industry} industry. The score will be revealed only after all questions are complete.`
+    `Thanks, ${state.user.name}. I will now assess ${state.user.organization} in the ${state.user.industry} industry and build a practical AI maturity profile based on your responses.`
   );
   askCurrentQuestion();
 });
