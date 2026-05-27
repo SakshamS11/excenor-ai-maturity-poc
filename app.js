@@ -260,10 +260,32 @@ const progressFill = document.querySelector("#progressFill");
 const restartButton = document.querySelector("#restartButton");
 const saveStatus = document.querySelector("#saveStatus");
 
+function escapeHtml(text) {
+  return text
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function formatAssistantText(text) {
+  return escapeHtml(text)
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/__([^_]+)__/g, "<strong>$1</strong>")
+    .replace(/\n/g, "<br>");
+}
+
 function addMessage(text, sender = "assistant", options = {}) {
   const message = document.createElement("div");
   message.className = `message ${sender}${options.thinking ? " thinking" : ""}`;
-  message.textContent = text;
+
+  if (sender === "assistant") {
+    message.innerHTML = formatAssistantText(text);
+  } else {
+    message.textContent = text;
+  }
+
   chatWindow.append(message);
   chatWindow.scrollTop = chatWindow.scrollHeight;
 
@@ -582,7 +604,7 @@ async function askAdvisor(message) {
 
   thinkingMessage.remove();
   latestAdvisorAnswer.hidden = false;
-  latestAdvisorAnswer.textContent = reply;
+  latestAdvisorAnswer.innerHTML = formatAssistantText(reply);
   addMessage(reply);
   persistLeadSnapshot("ai-response");
 }
