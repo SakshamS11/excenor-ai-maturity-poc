@@ -486,6 +486,17 @@ li {
   line-height: 1.6;
 }
 
+.latest-answer {
+  padding: 16px 18px;
+  border: 1px solid rgba(38, 59, 130, 0.18);
+  border-left: 5px solid var(--excenor-orange);
+  border-radius: 8px;
+  background: #fffaf0;
+  color: #172033;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
 .advisor-form {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

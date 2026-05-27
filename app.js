@@ -255,6 +255,7 @@ const resultPanel = document.querySelector("#resultPanel");
 const advisorPanel = document.querySelector("#advisorPanel");
 const advisorForm = document.querySelector("#advisorForm");
 const advisorInput = document.querySelector("#advisorInput");
+const latestAdvisorAnswer = document.querySelector("#latestAdvisorAnswer");
 const progressFill = document.querySelector("#progressFill");
 const restartButton = document.querySelector("#restartButton");
 const saveStatus = document.querySelector("#saveStatus");
@@ -535,12 +536,13 @@ function createClientDemoReply(message) {
   const lead = buildLeadSnapshot("client-demo");
   const level = lead?.level || "your current maturity stage";
   const gapText = lead?.gaps?.slice(0, 2).join(" and ") || "your readiness gaps";
+  const industry = lead?.lead?.industry || "your industry";
 
   if (message.toLowerCase().includes("proposal")) {
-    return `For ${level}, the proposal should focus on an AI readiness workshop, use-case prioritization, governance, and capability building. Excenor can use your assessment summary to shape a practical consulting roadmap.`;
+    return `For a ${industry} organization at ${level}, the proposal should focus on an AI readiness workshop, use-case prioritization, governance, and capability building. Excenor can use your assessment summary to shape a practical consulting roadmap tied to your operating reality.`;
   }
 
-  return `Based on ${level}, the most useful next step is to address ${gapText}, then choose a few high-value use cases for a structured roadmap. This is demo guidance until GEMINI_API_KEY is configured in Vercel.`;
+  return `For a ${industry} organization at ${level}, the most useful next step is to address ${gapText}, then choose a few high-value use cases for a structured roadmap. This is demo guidance until GEMINI_API_KEY is configured in Vercel.`;
 }
 
 async function askAdvisor(message) {
@@ -574,6 +576,8 @@ async function askAdvisor(message) {
   }
 
   thinkingMessage.remove();
+  latestAdvisorAnswer.hidden = false;
+  latestAdvisorAnswer.textContent = reply;
   addMessage(reply);
   persistLeadSnapshot("ai-response");
 }
@@ -592,6 +596,8 @@ function resetAssessment() {
   answerPanel.hidden = true;
   resultPanel.hidden = true;
   advisorPanel.hidden = true;
+  latestAdvisorAnswer.hidden = true;
+  latestAdvisorAnswer.textContent = "";
   saveStatus.textContent = "Lead record will be saved after the assessment result.";
   updateProgress();
   addMessage(

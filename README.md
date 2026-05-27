@@ -11,6 +11,8 @@ A static proof of concept for a conversational AI maturity scoring product.
 5. Save the lead, transcript, score, and short internal summary.
 6. Offer an AI advisor follow-up and proposal request CTA.
 
+The AI advisor is grounded in Excenor's brochure positioning, 5D engagement model, service portfolio, and outcome language. It adapts answers to the user's free-text industry entry.
+
 ## Scoring Dimensions
 
 | Dimension | Weight |
@@ -31,5 +33,5 @@ This is a static site. It can be deployed directly to Vercel from GitHub or thro
 Set these in Vercel when moving beyond demo mode:
 
 - `GEMINI_API_KEY`: enables live Gemini AI advisor responses through `/api/chat`.
-- `GEMINI_MODEL`: optional model override. Defaults to `gemini-2.5-flash`.
+- `GEMINI_MODEL`: optional model override. Defaults to `gemini-3.5-flash`.
 - `LEADS_WEBHOOK_URL`: optional webhook endpoint for server-side lead capture. Without this, the POC saves lead snapshots in browser storage.
