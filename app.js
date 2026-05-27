@@ -455,7 +455,7 @@ function createClientDemoReply(message) {
     return `For ${level}, the proposal should focus on an AI readiness workshop, use-case prioritization, governance, and capability building. Excenor can use your assessment summary to shape a practical consulting roadmap.`;
   }
 
-  return `Based on ${level}, the most useful next step is to address ${gapText}, then choose a few high-value use cases for a structured roadmap. This is demo guidance until OPENAI_API_KEY is configured in Vercel.`;
+  return `Based on ${level}, the most useful next step is to address ${gapText}, then choose a few high-value use cases for a structured roadmap. This is demo guidance until GEMINI_API_KEY is configured in Vercel.`;
 }
 
 async function askAdvisor(message) {

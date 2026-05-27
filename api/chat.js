@@ -9,7 +9,7 @@ export default async function handler(request, response) {
     return response.status(400).json({ error: "Message is required" });
   }
 
-  if (!process.env.OPENAI_API_KEY) {
+  if (!process.env.GEMINI_API_KEY) {
     return response.status(200).json({
       mode: "demo",
       reply: createDemoReply(message, lead),
@@ -23,16 +23,15 @@ export default async function handler(request, response) {
     "Use the provided score, maturity level, gaps, strengths, and transcript context.",
   ].join(" ");
 
+  const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
   const payload = {
-    model: process.env.OPENAI_MODEL || "gpt-5-mini",
-    instructions: prompt,
-    max_output_tokens: 500,
-    input: [
+    system_instruction: {
+      parts: [{ text: prompt }],
+    },
+    contents: [
       {
-        role: "user",
-        content: [
+        parts: [
           {
-            type: "input_text",
             text: JSON.stringify(
               {
                 question: message,
@@ -46,12 +45,16 @@ export default async function handler(request, response) {
         ],
       },
     ],
+    generationConfig: {
+      temperature: 0.5,
+      maxOutputTokens: 500,
+    },
   };
 
-  const aiResponse = await fetch("https://api.openai.com/v1/responses", {
+  const aiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      "x-goog-api-key": process.env.GEMINI_API_KEY,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
@@ -67,10 +70,8 @@ export default async function handler(request, response) {
 
   const data = await aiResponse.json();
   const reply =
-    data.output_text ||
-    data.output
-      ?.flatMap((item) => item.content || [])
-      .map((content) => content.text)
+    data.candidates?.[0]?.content?.parts
+      ?.map((part) => part.text)
       .filter(Boolean)
       .join("\n") ||
     "I could not generate a response just now. Please try again.";
@@ -91,5 +92,5 @@ function createDemoReply(message, lead) {
     return `A useful proposal should include an AI readiness workshop, use-case prioritization, data and governance review, and role-based training. Based on ${level}, Excenor should position the engagement around practical adoption and measurable business outcomes.`;
   }
 
-  return `Based on ${level}, I would recommend focusing on ${gaps}, then converting the assessment into a practical AI roadmap. For a POC response, this is running in demo mode until OPENAI_API_KEY is configured in Vercel.`;
+  return `Based on ${level}, I would recommend focusing on ${gaps}, then converting the assessment into a practical AI roadmap. For a POC response, this is running in demo mode until GEMINI_API_KEY is configured in Vercel.`;
 }

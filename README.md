@@ -30,6 +30,6 @@ This is a static site. It can be deployed directly to Vercel from GitHub or thro
 
 Set these in Vercel when moving beyond demo mode:
 
-- `OPENAI_API_KEY`: enables live AI advisor responses through `/api/chat`.
-- `OPENAI_MODEL`: optional model override. Defaults to `gpt-5-mini`.
+- `GEMINI_API_KEY`: enables live Gemini AI advisor responses through `/api/chat`.
+- `GEMINI_MODEL`: optional model override. Defaults to `gemini-2.5-flash`.
 - `LEADS_WEBHOOK_URL`: optional webhook endpoint for server-side lead capture. Without this, the POC saves lead snapshots in browser storage.
