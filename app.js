@@ -330,6 +330,10 @@ function updateProgress() {
         : dimension.answered === dimension.totalQuestions
           ? "Complete"
           : `${dimension.answered}/${dimension.totalQuestions}`;
+
+    const row = status.closest(".dimension-row");
+    row?.classList.toggle("is-active", dimension.answered > 0 && dimension.answered < dimension.totalQuestions);
+    row?.classList.toggle("is-complete", dimension.answered === dimension.totalQuestions);
   });
 }
 
@@ -340,6 +344,7 @@ function renderScaleOptions() {
   scale.forEach((option) => {
     const button = document.createElement("button");
     button.type = "button";
+    button.style.setProperty("--option-delay", `${option.value * 42}ms`);
     button.innerHTML = `<strong>${option.value}</strong><span>${question.options[option.value - 1]}</span>`;
     button.addEventListener("click", () => answerQuestion(option));
     scaleOptions.append(button);

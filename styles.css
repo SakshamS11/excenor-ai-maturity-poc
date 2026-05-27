@@ -4,6 +4,7 @@
   --line: #d9e1ec;
   --surface: #ffffff;
   --surface-quiet: #f7f9fd;
+  --panel-soft: #fbfcff;
   --excenor-blue: #263b82;
   --excenor-blue-strong: #172a68;
   --excenor-orange: #f2a20c;
@@ -28,15 +29,27 @@ body {
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--ink);
   background:
-    linear-gradient(135deg, rgba(242, 162, 12, 0.16), transparent 34%),
-    linear-gradient(315deg, rgba(38, 59, 130, 0.1), transparent 42%),
+    linear-gradient(135deg, rgba(242, 162, 12, 0.16), transparent 32%),
+    linear-gradient(315deg, rgba(38, 59, 130, 0.12), transparent 44%),
+    linear-gradient(rgba(38, 59, 130, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(38, 59, 130, 0.04) 1px, transparent 1px),
     #eef3f8;
+  background-size: auto, auto, 44px 44px, 44px 44px;
 }
 
 button,
 input,
 textarea {
   font: inherit;
+}
+
+button {
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
 }
 
 .app-shell {
@@ -55,6 +68,7 @@ textarea {
   border: 1px solid rgba(38, 59, 130, 0.18);
   border-radius: 8px;
   box-shadow: var(--shadow);
+  animation: workspaceIn 560ms ease both;
 }
 
 .context-panel {
@@ -62,7 +76,9 @@ textarea {
   flex-direction: column;
   gap: 24px;
   padding: 28px;
-  background: #ffffff;
+  background:
+    linear-gradient(180deg, rgba(242, 162, 12, 0.08), transparent 28%),
+    #ffffff;
   color: var(--ink);
   border-right: 1px solid var(--line);
 }
@@ -73,6 +89,8 @@ textarea {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
+  box-shadow: 0 12px 32px rgba(38, 59, 130, 0.08);
+  animation: fadeSlideUp 520ms ease 80ms both;
 }
 
 .brand-mark img {
@@ -87,10 +105,23 @@ textarea {
 }
 
 .status-card {
+  position: relative;
+  overflow: hidden;
   padding: 22px;
   border: 1px solid rgba(38, 59, 130, 0.16);
   border-radius: 8px;
-  background: #f7f9fd;
+  background:
+    linear-gradient(135deg, rgba(38, 59, 130, 0.08), transparent 52%),
+    #f7f9fd;
+  animation: fadeSlideUp 520ms ease 150ms both;
+}
+
+.status-card::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  content: "";
+  background: linear-gradient(90deg, var(--excenor-blue), var(--excenor-orange), var(--excenor-green));
 }
 
 .eyebrow {
@@ -133,16 +164,61 @@ textarea {
 
 .dimension-list {
   display: grid;
-  gap: 14px;
+  gap: 8px;
+  animation: fadeSlideUp 520ms ease 220ms both;
 }
 
 .dimension-row {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--line);
+  min-height: 46px;
+  padding: 11px 12px 11px 28px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.68);
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.dimension-row::before {
+  position: absolute;
+  left: 12px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  content: "";
+  background: #cbd5e1;
+  box-shadow: 0 0 0 3px rgba(203, 213, 225, 0.28);
+  transition:
+    background 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.dimension-row.is-active {
+  border-color: rgba(242, 162, 12, 0.34);
+  background: #fffaf0;
+}
+
+.dimension-row.is-active::before {
+  background: var(--excenor-orange);
+  box-shadow: 0 0 0 4px rgba(242, 162, 12, 0.2);
+}
+
+.dimension-row.is-complete {
+  border-color: rgba(69, 173, 72, 0.28);
+  background: #f5fbf5;
+  transform: translateX(2px);
+}
+
+.dimension-row.is-complete::before {
+  background: var(--excenor-green);
+  box-shadow: 0 0 0 4px rgba(69, 173, 72, 0.18);
 }
 
 .dimension-row span {
@@ -162,10 +238,13 @@ textarea {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  background: var(--surface-quiet);
+  background:
+    linear-gradient(180deg, #ffffff, var(--surface-quiet) 250px),
+    var(--surface-quiet);
 }
 
 .panel-header {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -173,6 +252,16 @@ textarea {
   padding: 28px 32px 20px;
   background: var(--surface);
   border-bottom: 1px solid var(--line);
+}
+
+.panel-header::after {
+  position: absolute;
+  right: 32px;
+  bottom: -1px;
+  width: min(260px, 42%);
+  height: 3px;
+  content: "";
+  background: linear-gradient(90deg, var(--excenor-orange), var(--excenor-green), var(--excenor-blue));
 }
 
 h1,
@@ -199,10 +288,22 @@ h1 {
   color: var(--ink);
   background: #fff;
   cursor: pointer;
+  box-shadow: 0 8px 18px rgba(38, 59, 130, 0.08);
+}
+
+.icon-button span {
+  font-size: 21px;
+  line-height: 1;
+}
+
+.icon-button:hover {
+  color: #fff;
+  background: var(--excenor-blue);
+  transform: translateY(-1px);
 }
 
 .progress-track {
-  height: 5px;
+  height: 6px;
   background: #e2e8f0;
 }
 
@@ -210,8 +311,9 @@ h1 {
   display: block;
   width: 0;
   height: 100%;
-  background: var(--accent);
-  transition: width 240ms ease;
+  background: linear-gradient(90deg, var(--excenor-blue), var(--excenor-orange), var(--excenor-green));
+  box-shadow: 0 0 18px rgba(242, 162, 12, 0.36);
+  transition: width 360ms cubic-bezier(0.2, 0.85, 0.32, 1);
 }
 
 .chat-window {
@@ -231,13 +333,21 @@ h1 {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
   line-height: 1.55;
+  animation: messageIn 280ms ease both;
+}
+
+.message:not(.user) {
+  border-left: 4px solid var(--excenor-orange);
 }
 
 .message.user {
   align-self: flex-end;
   color: #fff;
-  background: var(--excenor-blue);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent),
+    var(--excenor-blue);
   border-color: var(--excenor-blue);
 }
 
@@ -250,6 +360,8 @@ h1 {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
+  box-shadow: 0 16px 38px rgba(38, 59, 130, 0.08);
+  animation: fadeSlideUp 420ms ease both;
 }
 
 .form-grid {
@@ -275,6 +387,10 @@ input {
   border-radius: 6px;
   color: var(--ink);
   background: #fff;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
 }
 
 input:focus,
@@ -293,6 +409,20 @@ textarea {
   border-radius: 6px;
   color: var(--ink);
   background: #fff;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+input:hover,
+textarea:hover {
+  border-color: rgba(38, 59, 130, 0.42);
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--excenor-blue);
+  box-shadow: 0 10px 24px rgba(38, 59, 130, 0.08);
 }
 
 .primary-button {
@@ -304,10 +434,19 @@ textarea {
   background: var(--accent);
   font-weight: 800;
   cursor: pointer;
+  box-shadow: 0 12px 24px rgba(38, 59, 130, 0.18);
 }
 
 .primary-button:hover {
   background: var(--accent-strong);
+  box-shadow: 0 16px 30px rgba(38, 59, 130, 0.24);
+  transform: translateY(-1px);
+}
+
+.primary-button:active,
+.icon-button:active,
+.scale-options button:active {
+  transform: translateY(0);
 }
 
 .scale-options {
@@ -325,6 +464,8 @@ textarea {
   cursor: pointer;
   text-align: left;
   overflow-wrap: anywhere;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+  animation: optionIn 360ms ease var(--option-delay) both;
 }
 
 .scale-options button strong,
@@ -347,6 +488,8 @@ textarea {
 .scale-options button:hover {
   border-color: var(--accent);
   background: #f5f7ff;
+  box-shadow: 0 16px 28px rgba(38, 59, 130, 0.12);
+  transform: translateY(-3px);
 }
 
 .result-panel {
@@ -383,6 +526,7 @@ textarea {
   text-align: center;
   transform-origin: center;
   animation: scorePop 760ms cubic-bezier(0.2, 1.4, 0.36, 1) 220ms both;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 18px 34px rgba(38, 59, 130, 0.22);
 }
 
 .result-score strong {
@@ -400,6 +544,10 @@ textarea {
 .dimension-breakdown {
   display: grid;
   gap: 12px;
+  padding: 18px;
+  border: 1px solid rgba(38, 59, 130, 0.1);
+  border-radius: 8px;
+  background: var(--panel-soft);
 }
 
 .final-dimension {
@@ -440,6 +588,19 @@ textarea {
   padding: 18px;
   border: 1px solid var(--line);
   border-radius: 8px;
+  background:
+    linear-gradient(180deg, #ffffff, #fbfcff);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.insight-grid article:hover {
+  border-color: rgba(38, 59, 130, 0.22);
+  box-shadow: 0 16px 30px rgba(38, 59, 130, 0.08);
+  transform: translateY(-2px);
 }
 
 .insight-grid h3 {
@@ -464,7 +625,9 @@ li {
   gap: 18px;
   padding: 18px;
   border-radius: 8px;
-  background: #fff6df;
+  border: 1px solid rgba(242, 162, 12, 0.25);
+  background:
+    linear-gradient(90deg, #fff6df, #fffaf0);
 }
 
 .cta-strip span {
@@ -492,9 +655,11 @@ li {
   border-left: 5px solid var(--excenor-orange);
   border-radius: 8px;
   background: #fffaf0;
-  color: #172033;
+  color: var(--ink);
+  font-weight: 500;
   line-height: 1.6;
   white-space: pre-wrap;
+  animation: answerReveal 360ms ease both;
 }
 
 .advisor-form {
@@ -513,6 +678,51 @@ li {
 .thinking {
   color: #64748b;
   font-style: italic;
+  animation: thinkingPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes workspaceIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.992);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes messageIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes optionIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes revealPanel {
@@ -543,6 +753,38 @@ li {
   }
 }
 
+@keyframes answerReveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes thinkingPulse {
+  0%,
+  100% {
+    opacity: 0.62;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}
+
 @media (max-width: 900px) {
   .workspace,
   .result-grid,
@@ -553,6 +795,8 @@ li {
 
   .context-panel {
     order: 2;
+    border-right: 0;
+    border-top: 1px solid var(--line);
   }
 
   .chat-window {
@@ -560,7 +804,7 @@ li {
   }
 
   .scale-options {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -589,6 +833,10 @@ li {
 
   .form-grid,
   .final-dimension {
+    grid-template-columns: 1fr;
+  }
+
+  .scale-options {
     grid-template-columns: 1fr;
   }
 
