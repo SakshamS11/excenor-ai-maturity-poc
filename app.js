@@ -519,7 +519,7 @@ function showResult() {
 
   resultPanel.hidden = false;
   advisorPanel.hidden = false;
-  resultPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+  advisorPanel.scrollIntoView({ behavior: "smooth", block: "start" });
   animateScore(totalScore);
   persistLeadSnapshot("assessment-complete");
 }
@@ -589,12 +589,7 @@ function createClientDemoReply(message) {
 }
 
 async function askAdvisor(message) {
-  addMessage(message, "user");
   appendAdvisorThreadMessage(message, "user");
-  const thinkingMessage = addMessage("Thinking through your maturity result...", "assistant", {
-    transient: true,
-    thinking: true,
-  });
   const advisorThinkingMessage = appendAdvisorThreadMessage("Thinking through your maturity result...", "assistant", {
     thinking: true,
   });
@@ -622,10 +617,8 @@ async function askAdvisor(message) {
     }
   }
 
-  thinkingMessage.remove();
   advisorThinkingMessage.remove();
   appendAdvisorThreadMessage(reply, "assistant");
-  addMessage(reply);
   persistLeadSnapshot("ai-response");
 }
 

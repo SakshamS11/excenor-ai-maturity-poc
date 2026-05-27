@@ -107,6 +107,27 @@
             <div class="scale-options" id="scaleOptions"></div>
           </div>
 
+          <section class="advisor-panel" id="advisorPanel" hidden>
+            <div>
+              <span class="eyebrow">AI Advisor</span>
+              <h2>Ask about your result</h2>
+              <p>
+                Ask follow-up questions about maturity gaps, recommended next steps, or what Excenor should discuss in a proposal.
+              </p>
+            </div>
+            <div class="advisor-thread" id="advisorThread" hidden aria-live="polite"></div>
+            <form class="advisor-form" id="advisorForm">
+              <textarea
+                id="advisorInput"
+                rows="3"
+                placeholder="Example: What should we prioritize in the first 90 days?"
+                required
+              ></textarea>
+              <button class="primary-button" type="submit">Ask AI</button>
+            </form>
+            <p class="save-status" id="saveStatus">Lead record will be saved after the assessment result.</p>
+          </section>
+
           <section class="result-panel" id="resultPanel" hidden>
             <div class="result-grid">
               <div>
@@ -144,27 +165,6 @@
               </div>
               <button class="primary-button" id="proposalButton" type="button">Request Proposal</button>
             </div>
-          </section>
-
-          <section class="advisor-panel" id="advisorPanel" hidden>
-            <div>
-              <span class="eyebrow">AI Advisor</span>
-              <h2>Ask about your result</h2>
-              <p>
-                Ask follow-up questions about maturity gaps, recommended next steps, or what Excenor should discuss in a proposal.
-              </p>
-            </div>
-            <div class="advisor-thread" id="advisorThread" hidden aria-live="polite"></div>
-            <form class="advisor-form" id="advisorForm">
-              <textarea
-                id="advisorInput"
-                rows="3"
-                placeholder="Example: What should we prioritize in the first 90 days?"
-                required
-              ></textarea>
-              <button class="primary-button" type="submit">Ask AI</button>
-            </form>
-            <p class="save-status" id="saveStatus">Lead record will be saved after the assessment result.</p>
           </section>
         </section>
       </section>
