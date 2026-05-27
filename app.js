@@ -259,6 +259,7 @@ const advisorThread = document.querySelector("#advisorThread");
 const progressFill = document.querySelector("#progressFill");
 const restartButton = document.querySelector("#restartButton");
 const saveStatus = document.querySelector("#saveStatus");
+const workspace = document.querySelector(".workspace");
 
 function escapeHtml(text) {
   return text
@@ -623,6 +624,7 @@ async function askAdvisor(message) {
 }
 
 function resetAssessment() {
+  workspace.classList.add("is-opening");
   state.leadId = createLeadId();
   state.user = null;
   state.currentQuestion = 0;
@@ -647,6 +649,7 @@ function resetAssessment() {
 
 detailsForm.addEventListener("submit", (event) => {
   event.preventDefault();
+  workspace.classList.remove("is-opening");
   const formData = new FormData(detailsForm);
 
   state.user = {

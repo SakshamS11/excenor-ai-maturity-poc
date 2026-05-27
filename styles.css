@@ -57,6 +57,10 @@ button {
   padding: clamp(18px, 3vw, 40px);
 }
 
+.app-shell:has(.workspace.is-opening) {
+  padding: clamp(12px, 2vw, 28px);
+}
+
 .workspace {
   display: grid;
   grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
@@ -71,6 +75,10 @@ button {
   animation: workspaceIn 560ms ease both;
 }
 
+.workspace.is-opening {
+  grid-template-columns: minmax(230px, 300px) minmax(0, 1fr);
+}
+
 .context-panel {
   display: flex;
   flex-direction: column;
@@ -83,6 +91,11 @@ button {
   border-right: 1px solid var(--line);
 }
 
+.is-opening .context-panel {
+  gap: 18px;
+  padding: 18px 22px;
+}
+
 .brand-mark {
   display: block;
   padding: 12px;
@@ -91,6 +104,15 @@ button {
   background: #fff;
   box-shadow: 0 12px 32px rgba(38, 59, 130, 0.08);
   animation: fadeSlideUp 520ms ease 80ms both;
+}
+
+.is-opening .brand-mark {
+  padding: 10px;
+}
+
+.is-opening .brand-mark img {
+  max-height: 150px;
+  object-fit: contain;
 }
 
 .brand-mark img {
@@ -114,6 +136,10 @@ button {
     linear-gradient(135deg, rgba(38, 59, 130, 0.08), transparent 52%),
     #f7f9fd;
   animation: fadeSlideUp 520ms ease 150ms both;
+}
+
+.is-opening .status-card {
+  padding: 16px 18px;
 }
 
 .status-card::before {
@@ -150,6 +176,10 @@ button {
   line-height: 1;
 }
 
+.is-opening .progress-number strong {
+  font-size: 44px;
+}
+
 .progress-number span {
   color: #475569;
   font-size: 13px;
@@ -168,6 +198,10 @@ button {
   animation: fadeSlideUp 520ms ease 220ms both;
 }
 
+.is-opening .dimension-list {
+  gap: 6px;
+}
+
 .dimension-row {
   position: relative;
   display: flex;
@@ -183,6 +217,11 @@ button {
     background 180ms ease,
     border-color 180ms ease,
     transform 180ms ease;
+}
+
+.is-opening .dimension-row {
+  min-height: 34px;
+  padding-block: 7px;
 }
 
 .dimension-row::before {
@@ -254,6 +293,10 @@ button {
   border-bottom: 1px solid var(--line);
 }
 
+.is-opening .panel-header {
+  padding: 20px 32px 14px;
+}
+
 .panel-header::after {
   position: absolute;
   right: 32px;
@@ -275,6 +318,10 @@ h1 {
   margin-bottom: 0;
   font-size: clamp(28px, 4vw, 44px);
   line-height: 1.05;
+}
+
+.is-opening h1 {
+  font-size: clamp(34px, 4vw, 52px);
 }
 
 .icon-button {
@@ -327,6 +374,13 @@ h1 {
   padding: 28px 32px;
 }
 
+.is-opening .chat-window {
+  flex: 0 0 auto;
+  min-height: 0;
+  max-height: none;
+  padding: 20px 32px 14px;
+}
+
 .message {
   max-width: 760px;
   padding: 16px 18px;
@@ -364,11 +418,24 @@ h1 {
   animation: fadeSlideUp 420ms ease both;
 }
 
+.is-opening .details-form {
+  margin-top: 0;
+  padding: 16px 22px;
+}
+
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
   margin-bottom: 18px;
+}
+
+.is-opening .form-grid {
+  gap: 14px 18px;
+}
+
+.is-opening .form-grid label:last-child {
+  max-width: calc(50% - 9px);
 }
 
 label span {
@@ -381,7 +448,7 @@ label span {
 
 input {
   width: 100%;
-  min-height: 44px;
+  min-height: 42px;
   padding: 10px 12px;
   border: 1px solid #cbd5e1;
   border-radius: 6px;
@@ -391,6 +458,10 @@ input {
     border-color 180ms ease,
     box-shadow 180ms ease,
     transform 180ms ease;
+}
+
+.is-opening input {
+  min-height: 40px;
 }
 
 input:focus,
@@ -809,6 +880,7 @@ li {
 
 @media (max-width: 900px) {
   .workspace,
+  .workspace.is-opening,
   .result-grid,
   .insight-grid,
   .advisor-form {
