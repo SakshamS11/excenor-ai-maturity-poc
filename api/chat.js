@@ -18,7 +18,7 @@ export default async function handler(request, response) {
 
   const prompt = buildAdvisorPrompt();
 
-  const model = process.env.GEMINI_MODEL || "gemini-3.5-flash";
+  const model = process.env.GEMINI_MODEL || "gemini-2.5-flash-lite";
   const payload = {
     system_instruction: {
       parts: [{ text: prompt }],
@@ -30,8 +30,8 @@ export default async function handler(request, response) {
             text: JSON.stringify(
               {
                 question: message,
-                lead,
-                recentTranscript: Array.isArray(transcript) ? transcript.slice(-18) : [],
+                lead: compactLeadContext(lead),
+                recentTranscript: compactTranscript(transcript),
               },
               null,
               2
@@ -41,8 +41,8 @@ export default async function handler(request, response) {
       },
     ],
     generationConfig: {
-      temperature: 0.5,
-      maxOutputTokens: 500,
+      temperature: 0.35,
+      maxOutputTokens: 1200,
     },
   };
 
@@ -64,6 +64,7 @@ export default async function handler(request, response) {
   }
 
   const data = await aiResponse.json();
+  const finishReason = data.candidates?.[0]?.finishReason;
   const reply =
     data.candidates?.[0]?.content?.parts
       ?.map((part) => part.text)
@@ -71,7 +72,40 @@ export default async function handler(request, response) {
       .join("\n") ||
     "I could not generate a response just now. Please try again.";
 
-  return response.status(200).json({ mode: "live", reply });
+  const completedReply =
+    finishReason === "MAX_TOKENS"
+      ? `${reply}\n\nThe response was shortened by the model limit. Ask \"continue\" and I will expand the next steps.`
+      : reply;
+
+  return response.status(200).json({ mode: "live", reply: completedReply, finishReason });
+}
+
+function compactLeadContext(lead) {
+  if (!lead) {
+    return null;
+  }
+
+  return {
+    name: lead.lead?.name,
+    organization: lead.lead?.organization,
+    industry: lead.lead?.industry,
+    score: lead.score,
+    level: lead.level,
+    strengths: lead.strengths,
+    gaps: lead.gaps,
+    summary: lead.summary,
+  };
+}
+
+function compactTranscript(transcript) {
+  if (!Array.isArray(transcript)) {
+    return [];
+  }
+
+  return transcript.slice(-8).map((entry) => ({
+    sender: entry.sender,
+    text: typeof entry.text === "string" ? entry.text.slice(0, 600) : "",
+  }));
 }
 
 function buildAdvisorPrompt() {
@@ -96,7 +130,8 @@ Use this Excenor brochure context as your grounding:
 Response rules:
 - Adapt every answer to the user's free-text industry. Any industry is allowed. Infer likely processes, risks, stakeholders, and AI use cases from that industry without overclaiming.
 - Use the provided score, maturity level, strengths, gaps, lead details, and recent transcript.
-- Be concise, consultative, and practical. Prefer 2-4 short paragraphs or a small numbered list.
+- Be concise, consultative, and practical. Give a complete answer in 120-220 words unless the user explicitly asks for more detail.
+- If the user says "continue", continue from your previous answer without restarting.
 - Write for a polished website UI. Do not use Markdown bold markers like **text** or __text__.
 - Avoid generic AI hype. Tie advice to Excenor's 5D method and relevant service domains.
 - Do not claim Excenor has completed work for this exact user. Use language like "Excenor can help" or "a suitable next step would be".
