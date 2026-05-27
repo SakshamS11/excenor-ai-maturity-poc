@@ -2,9 +2,10 @@
   "name": "excenor-ai-maturity-poc",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "Static POC for Excenor Global AI Maturity Scoring.",
   "scripts": {
     "start": "npx serve .",
-    "check": "node --check app.js"
+    "check": "node --check app.js && node --check api/chat.js && node --check api/leads.js"
   }
 }

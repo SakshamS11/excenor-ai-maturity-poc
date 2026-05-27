@@ -146,10 +146,21 @@ const maturityLevels = [
   },
 ];
 
+function createLeadId() {
+  if (window.crypto?.randomUUID) {
+    return window.crypto.randomUUID();
+  }
+
+  return `lead-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
 const state = {
+  leadId: createLeadId(),
   user: null,
   currentQuestion: 0,
   answers: {},
+  transcript: [],
+  result: null,
 };
 
 const chatWindow = document.querySelector("#chatWindow");
@@ -157,15 +168,29 @@ const detailsForm = document.querySelector("#detailsForm");
 const answerPanel = document.querySelector("#answerPanel");
 const scaleOptions = document.querySelector("#scaleOptions");
 const resultPanel = document.querySelector("#resultPanel");
+const advisorPanel = document.querySelector("#advisorPanel");
+const advisorForm = document.querySelector("#advisorForm");
+const advisorInput = document.querySelector("#advisorInput");
 const progressFill = document.querySelector("#progressFill");
 const restartButton = document.querySelector("#restartButton");
+const saveStatus = document.querySelector("#saveStatus");
 
-function addMessage(text, sender = "assistant") {
+function addMessage(text, sender = "assistant", options = {}) {
   const message = document.createElement("div");
-  message.className = `message ${sender}`;
+  message.className = `message ${sender}${options.thinking ? " thinking" : ""}`;
   message.textContent = text;
   chatWindow.append(message);
   chatWindow.scrollTop = chatWindow.scrollHeight;
+
+  if (!options.transient) {
+    state.transcript.push({
+      sender,
+      text,
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  return message;
 }
 
 function getMaturityLevel(score) {
@@ -185,6 +210,8 @@ function calculateScores() {
       ...dimension,
       rawAverage: average,
       weightedScore: Math.round((average / 5) * dimension.weight),
+      answered: matchingQuestions.filter((question) => state.answers[question.id]).length,
+      totalQuestions: matchingQuestions.length,
     };
   });
 
@@ -196,18 +223,28 @@ function calculateScores() {
 }
 
 function updateProgress() {
-  const { totalScore, dimensionScores } = calculateScores();
+  const { dimensionScores } = calculateScores();
   const completed = Object.keys(state.answers).length;
   const progress = Math.round((completed / questions.length) * 100);
-  const level = getMaturityLevel(totalScore);
 
-  document.querySelector("#liveScore").textContent = totalScore;
+  document.querySelector("#answeredCount").textContent = completed;
   document.querySelector("#liveLevel").textContent =
-    completed === questions.length ? level.name : `${completed} of ${questions.length} questions complete`;
+    completed === questions.length
+      ? "Assessment complete. Revealing your maturity score now."
+      : "Your score stays private until the final reveal.";
   progressFill.style.width = `${progress}%`;
 
   Object.entries(dimensionScores).forEach(([key, dimension]) => {
-    document.querySelector(`#meter-${key}`).value = dimension.weightedScore;
+    const status = document.querySelector(`#status-${key}`);
+    if (!status) {
+      return;
+    }
+    status.textContent =
+      dimension.answered === 0
+        ? "Pending"
+        : dimension.answered === dimension.totalQuestions
+          ? "Complete"
+          : `${dimension.answered}/${dimension.totalQuestions}`;
   });
 }
 
@@ -250,11 +287,11 @@ function answerQuestion(option) {
   updateProgress();
 
   if (state.currentQuestion < questions.length) {
-    setTimeout(askCurrentQuestion, 220);
+    setTimeout(askCurrentQuestion, 240);
     return;
   }
 
-  setTimeout(showResult, 260);
+  setTimeout(showResult, 420);
 }
 
 function listItems(target, items) {
@@ -266,31 +303,84 @@ function listItems(target, items) {
   });
 }
 
-function showResult() {
-  const { totalScore, dimensionScores } = calculateScores();
+function getRankedDimensions(dimensionScores) {
+  return Object.values(dimensionScores).sort((a, b) => b.rawAverage - a.rawAverage);
+}
+
+function renderDimensionBreakdown(dimensionScores) {
+  const target = document.querySelector("#finalDimensionList");
+  target.replaceChildren();
+
+  Object.values(dimensionScores).forEach((dimension) => {
+    const row = document.createElement("div");
+    row.className = "final-dimension";
+    const percentage = Math.round((dimension.weightedScore / dimension.weight) * 100);
+    row.innerHTML = `
+      <strong>${dimension.shortLabel}</strong>
+      <div class="score-bar" aria-hidden="true"><span style="--score-width: ${percentage}%"></span></div>
+      <span>${dimension.weightedScore}/${dimension.weight}</span>
+    `;
+    target.append(row);
+  });
+}
+
+function animateScore(score) {
+  const target = document.querySelector("#resultScore");
+  const duration = 1000;
+  const start = performance.now();
+
+  function tick(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    target.textContent = `${Math.round(score * eased)}/100`;
+
+    if (progress < 1) {
+      requestAnimationFrame(tick);
+    }
+  }
+
+  requestAnimationFrame(tick);
+}
+
+function buildResultPayload(totalScore, dimensionScores) {
   const level = getMaturityLevel(totalScore);
-  const ranked = Object.values(dimensionScores).sort((a, b) => b.rawAverage - a.rawAverage);
+  const ranked = getRankedDimensions(dimensionScores);
   const strongest = ranked.slice(0, 2);
   const weakest = ranked.slice(-2).reverse();
 
+  return {
+    totalScore,
+    dimensionScores,
+    level,
+    strongest,
+    weakest,
+    strengths: strongest.map((dimension) => `${dimension.shortLabel}: ${dimension.help}`),
+    gaps: weakest.map((dimension) => `${dimension.shortLabel}: ${dimension.help}`),
+    summary: `${state.user.organization} scored ${totalScore}/100 and is at the ${level.name} stage. Strengths: ${strongest
+      .map((dimension) => dimension.shortLabel)
+      .join(", ")}. Priority gaps: ${weakest.map((dimension) => dimension.shortLabel).join(", ")}.`,
+  };
+}
+
+function showResult() {
+  const { totalScore, dimensionScores } = calculateScores();
+  const result = buildResultPayload(totalScore, dimensionScores);
+  state.result = result;
+
   addMessage(
-    `${state.user.name}, your AI Maturity Score is ${totalScore}/100. You are currently at the ${level.name} stage.`
+    `${state.user.name}, your assessment is complete. I am revealing your AI Maturity Score and recommended next steps.`
   );
 
-  document.querySelector("#resultLevel").textContent = level.name;
-  document.querySelector("#resultScore").textContent = `${totalScore}/100`;
-  document.querySelector("#resultNarrative").textContent = `${state.user.organization} appears to be at the ${level.name} stage. ${level.narrative}`;
+  document.querySelector("#resultLevel").textContent = result.level.name;
+  document.querySelector("#resultScore").textContent = "0/100";
+  document.querySelector("#resultNarrative").textContent = `${state.user.organization} appears to be at the ${result.level.name} stage. ${result.level.narrative}`;
 
-  listItems(
-    document.querySelector("#strengthList"),
-    strongest.map((dimension) => `${dimension.shortLabel}: ${dimension.help}`)
-  );
-
+  renderDimensionBreakdown(dimensionScores);
+  listItems(document.querySelector("#strengthList"), result.strengths);
   listItems(
     document.querySelector("#gapList"),
-    weakest.map((dimension) => `${dimension.shortLabel}: focus here to improve the next maturity stage. ${dimension.help}`)
+    result.weakest.map((dimension) => `${dimension.shortLabel}: focus here to improve the next maturity stage. ${dimension.help}`)
   );
-
   listItems(document.querySelector("#excenorList"), [
     "Run an AI readiness and opportunity discovery workshop with leadership and process owners.",
     "Prioritize AI use cases by business value, feasibility, risk, and measurable outcomes.",
@@ -299,18 +389,125 @@ function showResult() {
   ]);
 
   resultPanel.hidden = false;
+  advisorPanel.hidden = false;
   resultPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+  animateScore(totalScore);
+  persistLeadSnapshot("assessment-complete");
+}
+
+function buildLeadSnapshot(trigger) {
+  if (!state.user || !state.result) {
+    return null;
+  }
+
+  return {
+    id: state.leadId,
+    trigger,
+    capturedAt: new Date().toISOString(),
+    lead: state.user,
+    score: state.result.totalScore,
+    level: state.result.level.name,
+    strengths: state.result.strongest.map((dimension) => dimension.shortLabel),
+    gaps: state.result.weakest.map((dimension) => dimension.shortLabel),
+    summary: state.result.summary,
+    answers: state.answers,
+    transcript: state.transcript,
+  };
+}
+
+async function persistLeadSnapshot(trigger) {
+  const snapshot = buildLeadSnapshot(trigger);
+  if (!snapshot) {
+    return;
+  }
+
+  const storedLeads = JSON.parse(localStorage.getItem("excenorLeadSnapshots") || "[]");
+  const updatedLeads = storedLeads.filter((lead) => lead.id !== snapshot.id);
+  updatedLeads.push(snapshot);
+  localStorage.setItem("excenorLeadSnapshots", JSON.stringify(updatedLeads));
+  saveStatus.textContent = "Lead, transcript, score, and internal summary saved in browser storage.";
+
+  if (!location.protocol.startsWith("http")) {
+    return;
+  }
+
+  try {
+    const response = await fetch("/api/leads", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(snapshot),
+    });
+    const data = await response.json();
+    saveStatus.textContent = data.saved
+      ? "Lead, transcript, score, and summary saved."
+      : "Lead saved in browser storage. Configure LEADS_WEBHOOK_URL for server-side capture.";
+  } catch (error) {
+    saveStatus.textContent = "Lead saved in browser storage. Server-side lead capture is not available yet.";
+  }
+}
+
+function createClientDemoReply(message) {
+  const lead = buildLeadSnapshot("client-demo");
+  const level = lead?.level || "your current maturity stage";
+  const gapText = lead?.gaps?.slice(0, 2).join(" and ") || "your readiness gaps";
+
+  if (message.toLowerCase().includes("proposal")) {
+    return `For ${level}, the proposal should focus on an AI readiness workshop, use-case prioritization, governance, and capability building. Excenor can use your assessment summary to shape a practical consulting roadmap.`;
+  }
+
+  return `Based on ${level}, the most useful next step is to address ${gapText}, then choose a few high-value use cases for a structured roadmap. This is demo guidance until OPENAI_API_KEY is configured in Vercel.`;
+}
+
+async function askAdvisor(message) {
+  addMessage(message, "user");
+  const thinkingMessage = addMessage("Thinking through your maturity result...", "assistant", {
+    transient: true,
+    thinking: true,
+  });
+
+  let reply = createClientDemoReply(message);
+
+  if (location.protocol.startsWith("http")) {
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message,
+          lead: buildLeadSnapshot("ai-question"),
+          transcript: state.transcript,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        reply = data.reply || reply;
+      }
+    } catch (error) {
+      reply = createClientDemoReply(message);
+    }
+  }
+
+  thinkingMessage.remove();
+  addMessage(reply);
+  persistLeadSnapshot("ai-response");
 }
 
 function resetAssessment() {
+  state.leadId = createLeadId();
   state.user = null;
   state.currentQuestion = 0;
   state.answers = {};
+  state.transcript = [];
+  state.result = null;
   chatWindow.replaceChildren();
   detailsForm.reset();
+  advisorForm.reset();
   detailsForm.hidden = false;
   answerPanel.hidden = true;
   resultPanel.hidden = true;
+  advisorPanel.hidden = true;
+  saveStatus.textContent = "Lead record will be saved after the assessment result.";
   updateProgress();
   addMessage(
     "Welcome. I will assess your organization across strategy, data, use cases, technology, people capability, and governance. Share your details to begin."
@@ -331,15 +528,27 @@ detailsForm.addEventListener("submit", (event) => {
 
   detailsForm.hidden = true;
   addMessage(
-    `Thanks, ${state.user.name}. I will now score ${state.user.organization} in the ${state.user.industry} industry.`
+    `Thanks, ${state.user.name}. I will now assess ${state.user.organization} in the ${state.user.industry} industry. The score will be revealed only after all questions are complete.`
   );
   askCurrentQuestion();
 });
 
+advisorForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const message = advisorInput.value.trim();
+  if (!message) {
+    return;
+  }
+
+  advisorInput.value = "";
+  askAdvisor(message);
+});
+
 document.querySelector("#proposalButton").addEventListener("click", () => {
   addMessage(
-    "Proposal request noted. In the next POC version, this action can send the assessment summary to Excenor Global and trigger a consultant follow-up."
+    "Proposal request noted. Excenor Global can use this assessment transcript, score, and summary to prepare a more focused discovery conversation."
   );
+  persistLeadSnapshot("proposal-request");
 });
 
 restartButton.addEventListener("click", resetAssessment);
