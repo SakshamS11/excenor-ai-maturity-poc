@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Excenor Global AI Maturity Assessment POC"
+    />
+    <title>Excenor Global | AI Maturity Assessment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="workspace">
+        <aside class="context-panel">
+          <div class="brand-mark" aria-label="Excenor Global">
+            <span class="brand-symbol">E</span>
+            <div>
+              <strong>Excenor Global</strong>
+              <span>AI Maturity POC</span>
+            </div>
+          </div>
+
+          <div class="score-card">
+            <span class="eyebrow">Assessment Score</span>
+            <div class="score-display">
+              <strong id="liveScore">0</strong>
+              <span>/100</span>
+            </div>
+            <p id="liveLevel">Complete the assessment to reveal maturity.</p>
+          </div>
+
+          <div class="dimension-list" aria-label="AI maturity dimensions">
+            <div class="dimension-row">
+              <span>Strategy</span>
+              <meter id="meter-strategy" value="0" max="15"></meter>
+            </div>
+            <div class="dimension-row">
+              <span>Data</span>
+              <meter id="meter-data" value="0" max="20"></meter>
+            </div>
+            <div class="dimension-row">
+              <span>Use Cases</span>
+              <meter id="meter-useCases" value="0" max="20"></meter>
+            </div>
+            <div class="dimension-row">
+              <span>Technology</span>
+              <meter id="meter-technology" value="0" max="15"></meter>
+            </div>
+            <div class="dimension-row">
+              <span>Capability</span>
+              <meter id="meter-people" value="0" max="20"></meter>
+            </div>
+            <div class="dimension-row">
+              <span>Governance</span>
+              <meter id="meter-governance" value="0" max="10"></meter>
+            </div>
+          </div>
+        </aside>
+
+        <section class="assessment-panel" aria-label="Conversational AI maturity assessment">
+          <header class="panel-header">
+            <div>
+              <span class="eyebrow">Consulting Readiness Assessment</span>
+              <h1>AI Maturity Scoring</h1>
+            </div>
+            <button class="icon-button" id="restartButton" type="button" title="Restart assessment" aria-label="Restart assessment">
+              <span aria-hidden="true">R</span>
+            </button>
+          </header>
+
+          <div class="progress-track" aria-hidden="true">
+            <span id="progressFill"></span>
+          </div>
+
+          <div class="chat-window" id="chatWindow" aria-live="polite"></div>
+
+          <form class="details-form" id="detailsForm">
+            <div class="form-grid">
+              <label>
+                <span>Name</span>
+                <input id="name" name="name" autocomplete="name" required />
+              </label>
+              <label>
+                <span>Organization</span>
+                <input id="organization" name="organization" autocomplete="organization" required />
+              </label>
+              <label>
+                <span>Industry</span>
+                <input id="industry" name="industry" required />
+              </label>
+              <label>
+                <span>Email</span>
+                <input id="email" name="email" type="email" autocomplete="email" required />
+              </label>
+              <label>
+                <span>Number</span>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" required />
+              </label>
+            </div>
+            <button class="primary-button" type="submit">Start Assessment</button>
+          </form>
+
+          <div class="answer-panel" id="answerPanel" hidden>
+            <div class="scale-options" id="scaleOptions"></div>
+          </div>
+
+          <section class="result-panel" id="resultPanel" hidden>
+            <div class="result-grid">
+              <div>
+                <span class="eyebrow">Maturity Level</span>
+                <h2 id="resultLevel"></h2>
+                <p id="resultNarrative"></p>
+              </div>
+              <div class="result-score">
+                <strong id="resultScore"></strong>
+                <span>AI Maturity Score</span>
+              </div>
+            </div>
+
+            <div class="insight-grid">
+              <article>
+                <h3>Strengths</h3>
+                <ul id="strengthList"></ul>
+              </article>
+              <article>
+                <h3>Priority Gaps</h3>
+                <ul id="gapList"></ul>
+              </article>
+              <article>
+                <h3>How Excenor Can Help</h3>
+                <ul id="excenorList"></ul>
+              </article>
+            </div>
+
+            <div class="cta-strip">
+              <div>
+                <strong>Ready for a deeper AI readiness workshop?</strong>
+                <span>Share requirements and explore a tailored proposal from Excenor Global.</span>
+              </div>
+              <button class="primary-button" id="proposalButton" type="button">Request Proposal</button>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
