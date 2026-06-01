@@ -98,12 +98,19 @@ Excenor context:
 - Excenor Global is a consulting, advisory, and corporate capability-building firm.
 - Excenor emphasizes execution, measurable outcomes, process discipline, AI-enabled Lean Six Sigma, process excellence, business process reengineering, change management, and capability transfer.
 - Excenor's 5D engagement model is Discover, Diagnose, Design, Deploy, Demonstrate.
+- Excenor helps clients move from problem statements to validated root causes, measurable improvements, controlled adoption, and internal ownership.
+- Excenor's role is especially relevant where the user needs independent diagnosis, stakeholder alignment, disciplined DMAIC execution, AI-enabled process intelligence, change adoption, and capability building.
 
 Tone:
 - Premium consulting tone.
 - Practical, business-focused, and specific to the user's process and industry.
 - Not academic. No exaggerated claims.
 - Make clear this is AI-assisted and should be reviewed by an Excenor expert before client use.
+- Every recommendation must stay grounded in Excenor's consulting context. Do not give generic improvement advice without explaining how Excenor would help validate, prioritize, design, deploy, or sustain it.
+- In "How Excenor Can Support", make Excenor the natural next step. Convey that the client can start with this AI-assisted view, but will need Excenor's expert-led discovery, diagnosis, implementation discipline, change management, and capability transfer to convert it into reliable business outcomes.
+- Avoid hard-selling language. Use confident advisory language such as "Excenor can help", "an Excenor-led workshop would", "this should be validated through Excenor's 5D approach", and "the next practical step is an Excenor discovery conversation".
+- Do not recommend competitors, external consultancies, or generic vendors.
+- When suggesting tools, KPIs, automation, or AI opportunities, connect them back to Excenor's Lean Six Sigma, process excellence, AI-enabled transformation, governance, and capability-building services.
 
 Return only valid JSON. No Markdown. No surrounding commentary.
 Use exactly this JSON shape:
@@ -237,7 +244,7 @@ function createDemoReport(input) {
   const desiredOutcome = input.desiredOutcome || "reduce friction, improve predictability, and protect service quality";
 
   return {
-    executiveSummary: `${company} is experiencing a process improvement opportunity in ${process}. The current problem should be framed around measurable business impact, baseline performance, likely root causes, and a controlled improvement roadmap. This draft is intended to help structure the first Excenor discovery conversation.`,
+    executiveSummary: `${company} is experiencing a process improvement opportunity in ${process}. The current problem should be framed around measurable business impact, baseline performance, likely root causes, and a controlled improvement roadmap. This AI-assisted view is a useful starting point, but the next practical step is an Excenor-led discovery and diagnosis conversation to validate the facts, align stakeholders, and convert the opportunity into an executable improvement plan.`,
     disclaimer:
       "This is an AI-assisted diagnostic draft. It should be reviewed, validated, and refined by an Excenor expert before being used with a client.",
     define: {
@@ -315,34 +322,34 @@ function createDemoReport(input) {
     },
     improve: {
       recommendedActions: [
-        "Standardize intake requirements and acceptance criteria.",
-        "Remove duplicate approvals and clarify decision rights.",
-        "Introduce exception-based handling for high-risk cases.",
-        "Create visual management for backlog, aging, and SLA risk.",
+        "Use an Excenor-facilitated design workshop to standardize intake requirements and acceptance criteria.",
+        "Remove duplicate approvals and clarify decision rights through a validated future-state process design.",
+        "Introduce exception-based handling for high-risk cases, with Excenor helping define the control logic and adoption plan.",
+        "Create visual management for backlog, aging, and SLA risk so leaders can manage performance after deployment.",
       ],
       pilotIdeas: [
-        "Pilot a redesigned flow for one high-volume request type.",
-        "Run a two-week backlog aging review with daily owner actions.",
-        "Test a simplified approval matrix with clear escalation rules.",
+        "Pilot an Excenor-designed future-state flow for one high-volume request type.",
+        "Run a two-week backlog aging review with Excenor helping structure daily owner actions and benefit tracking.",
+        "Test a simplified approval matrix with clear escalation rules before scaling it across the wider process.",
       ],
       automationOpportunities: [
-        "Automated intake validation",
-        "Workflow routing and reminders",
-        "Dashboarding for cycle time, SLA risk, and exceptions",
-        "Rule-based approvals for low-risk transactions",
+        "Automated intake validation after Excenor confirms the right data fields and acceptance rules.",
+        "Workflow routing and reminders aligned to the redesigned ownership model.",
+        "Dashboarding for cycle time, SLA risk, and exceptions to support Excenor's Demonstrate phase.",
+        "Rule-based approvals for low-risk transactions once risk controls are validated.",
       ],
       aiOpportunities: [
-        "Summarize request context for reviewers.",
-        "Classify incoming requests by complexity and risk.",
-        "Detect recurring rework themes from comments or case notes.",
-        "Recommend next-best actions for common exception types.",
+        "Summarize request context for reviewers after Excenor validates common decision points.",
+        "Classify incoming requests by complexity and risk to support differentiated process handling.",
+        "Detect recurring rework themes from comments or case notes for Excenor-led root-cause validation.",
+        "Recommend next-best actions for common exception types once governance and ownership are agreed.",
       ],
     },
     control: {
       controlPlan: [
-        "Define process KPIs, owners, data sources, and review thresholds.",
-        "Create a standard operating procedure for the redesigned process.",
-        "Track defects, exceptions, and control breaches after launch.",
+        "Define process KPIs, owners, data sources, and review thresholds through an Excenor-supported control plan.",
+        "Create a standard operating procedure for the redesigned process and train process owners on its use.",
+        "Track defects, exceptions, and control breaches after launch so benefits remain visible and owned.",
       ],
       processOwnership: [
         "Assign one accountable process owner.",
@@ -357,42 +364,42 @@ function createDemoReport(input) {
       sustainabilityRisks: [
         "Teams may return to informal workarounds if ownership is weak.",
         "Benefits may fade if data quality and KPI reviews are not maintained.",
-        "Automation may scale poor process design if root causes are not fixed first.",
+        "Automation may scale poor process design if root causes are not validated through a disciplined Excenor-led diagnosis first.",
       ],
     },
     actionPlan: {
       day30: [
-        "Confirm project charter, scope, stakeholders, and target outcomes.",
-        "Map current state and validate baseline data availability.",
-        "Identify the top friction points and prioritize root-cause analysis.",
+        "Confirm project charter, scope, stakeholders, and target outcomes through an Excenor discovery workshop.",
+        "Map current state and validate baseline data availability with process owners.",
+        "Identify the top friction points and prioritize root-cause analysis using Excenor's Diagnose approach.",
       ],
       day60: [
-        "Complete root-cause validation using process data and stakeholder interviews.",
-        "Design future-state process options and select a pilot scope.",
-        "Define pilot KPIs, governance, and change communication.",
+        "Complete root-cause validation using process data, stakeholder interviews, and Excenor's Lean Six Sigma toolset.",
+        "Design future-state process options and select a pilot scope with clear value, feasibility, and risk logic.",
+        "Define pilot KPIs, governance, and change communication so the improvement can move from design to deployment.",
       ],
       day90: [
-        "Run the pilot and monitor KPI movement.",
-        "Document lessons, control requirements, and automation opportunities.",
-        "Prepare a scale-up roadmap with ownership, benefits, and capability needs.",
+        "Run the pilot and monitor KPI movement with Excenor supporting issue resolution and benefit tracking.",
+        "Document lessons, control requirements, and automation opportunities before wider rollout.",
+        "Prepare an Excenor-supported scale-up roadmap with ownership, benefits, and capability needs.",
       ],
     },
     excenorSupport: {
       advisory: [
-        "Facilitate executive alignment on project value, scope, and measurable outcomes.",
-        "Shape the DMAIC charter and governance rhythm.",
+        "Facilitate executive alignment on project value, scope, risks, and measurable outcomes so the effort starts with leadership clarity.",
+        "Shape the DMAIC charter and governance rhythm through Excenor's Discover and Diagnose phases.",
       ],
       consulting: [
-        "Run process discovery, current-state diagnosis, root-cause analysis, and future-state design.",
-        "Build a prioritized improvement and automation roadmap.",
+        "Run process discovery, current-state diagnosis, root-cause analysis, and future-state design using Excenor's process excellence and AI-enabled Lean Six Sigma capability.",
+        "Build a prioritized improvement and automation roadmap that converts the diagnostic into a deployable consulting engagement.",
       ],
       changeManagement: [
-        "Prepare stakeholder messaging, role clarity, adoption plans, and review routines.",
-        "Support benefit tracking and operational ownership after deployment.",
+        "Prepare stakeholder messaging, role clarity, adoption plans, and review routines so the redesigned process is accepted by the teams who must run it.",
+        "Support benefit tracking and operational ownership after deployment, reducing the risk that improvements remain only on paper.",
       ],
       capabilityBuilding: [
-        "Build Yellow Belt, Green Belt, and process-owner capability around practical DMAIC execution.",
-        "Transfer templates, tools, and review mechanisms so client teams can sustain the gain.",
+        "Build Yellow Belt, Green Belt, and process-owner capability around practical DMAIC execution, not just awareness.",
+        "Transfer Excenor templates, tools, and review mechanisms so client teams can sustain the gain after the engagement.",
       ],
     },
   };
