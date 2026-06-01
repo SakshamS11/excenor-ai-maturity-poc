@@ -66,9 +66,12 @@
             <div>
               <h1>AI Maturity Scoring</h1>
             </div>
-            <button class="icon-button" id="restartButton" type="button" title="Restart assessment" aria-label="Restart assessment">
-              <span aria-hidden="true">&#8635;</span>
-            </button>
+            <div class="header-actions">
+              <a class="section-link" href="#process-friction">Process Friction</a>
+              <button class="icon-button" id="restartButton" type="button" title="Restart assessment" aria-label="Restart assessment">
+                <span aria-hidden="true">&#8635;</span>
+              </button>
+            </div>
           </header>
 
           <div class="progress-track" aria-hidden="true">
@@ -109,12 +112,13 @@
 
           <section class="advisor-panel" id="advisorPanel" hidden>
             <div>
-              <span class="eyebrow">AI Advisor</span>
-              <h2>Ask about your result</h2>
+              <span class="eyebrow">AI Agents</span>
+              <h2>Choose an Excenor AI agent</h2>
               <p>
-                Ask follow-up questions about maturity gaps, recommended next steps, or what Excenor should discuss in a proposal.
+                Ask a specialist agent about maturity gaps, recommended next steps, use cases, governance, or what Excenor should discuss in a proposal.
               </p>
             </div>
+            <div class="agent-selector" id="agentSelector" aria-label="Choose AI agent"></div>
             <div class="advisor-thread" id="advisorThread" hidden aria-live="polite"></div>
             <form class="advisor-form" id="advisorForm">
               <textarea
@@ -167,6 +171,99 @@
             </div>
           </section>
         </section>
+      </section>
+
+      <section class="product-section friction-section" id="process-friction" aria-labelledby="processFrictionTitle">
+        <div class="product-intro">
+          <span class="eyebrow">New Diagnostic Concept</span>
+          <h2 id="processFrictionTitle">Process Friction Assessment</h2>
+          <p>
+            A guided assessment that helps leaders identify where work is slowed by waiting time, unclear ownership,
+            rework, manual controls, system gaps, and avoidable handoffs. The output should convert everyday
+            operational friction into a prioritized improvement and automation roadmap.
+          </p>
+        </div>
+
+        <div class="friction-grid">
+          <article class="friction-visual" aria-label="Process Friction Assessment scoring preview">
+            <div class="friction-score-card">
+              <span>Friction Index</span>
+              <strong>72</strong>
+              <small>High improvement potential</small>
+            </div>
+            <div class="friction-flow" aria-hidden="true">
+              <span class="flow-node is-good">Intake</span>
+              <span class="flow-line"></span>
+              <span class="flow-node is-warning">Handoff</span>
+              <span class="flow-line"></span>
+              <span class="flow-node is-risk">Rework</span>
+              <span class="flow-line"></span>
+              <span class="flow-node is-good">Delivery</span>
+            </div>
+            <div class="friction-insight">
+              <span class="eyebrow">Likely Levers</span>
+              <ul>
+                <li>Reduce approval delays and duplicate checks.</li>
+                <li>Clarify ownership between teams and systems.</li>
+                <li>Prioritize workflow automation where volume and repeatability are high.</li>
+              </ul>
+            </div>
+          </article>
+
+          <div class="friction-content">
+            <div class="product-card">
+              <span class="product-step">01</span>
+              <h3>What It Measures</h3>
+              <p>
+                Demand clarity, handoffs, cycle time, rework, exception handling, system integration, controls,
+                reporting effort, and customer or stakeholder impact.
+              </p>
+            </div>
+            <div class="product-card">
+              <span class="product-step">02</span>
+              <h3>How It Scores</h3>
+              <p>
+                Users answer practical questions on a 1 to 5 maturity scale. The model produces a Friction Index,
+                severity level, top friction zones, and areas where Lean, process redesign, or AI-led automation can help.
+              </p>
+            </div>
+            <div class="product-card">
+              <span class="product-step">03</span>
+              <h3>What Excenor Can Deliver</h3>
+              <p>
+                A focused discovery workshop, process heatmap, value-prioritized improvement backlog, automation
+                opportunity list, and a practical execution roadmap aligned to Excenor's 5D approach.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="friction-dimensions" aria-label="Process Friction scoring dimensions">
+          <div>
+            <strong>Demand & Intake</strong>
+            <span>How clearly work enters the process.</span>
+          </div>
+          <div>
+            <strong>Handoffs & Ownership</strong>
+            <span>Where accountability slows down.</span>
+          </div>
+          <div>
+            <strong>Cycle Time & Waiting</strong>
+            <span>Where work sits idle or gets delayed.</span>
+          </div>
+          <div>
+            <strong>Rework & Exceptions</strong>
+            <span>Where defects, corrections, and escalations appear.</span>
+          </div>
+          <div>
+            <strong>Systems & Automation</strong>
+            <span>Where tools reduce or increase effort.</span>
+          </div>
+          <div>
+            <strong>Controls & Risk</strong>
+            <span>Where compliance supports or burdens flow.</span>
+          </div>
+        </div>
       </section>
     </main>
 
