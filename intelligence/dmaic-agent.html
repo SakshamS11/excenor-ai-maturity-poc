@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Excenor Global DMAIC Agent for AI-assisted Lean Six Sigma problem structuring."
+    />
+    <title>Excenor Global | DMAIC Agent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <main class="app-shell intelligence-shell">
+      <section class="agent-page">
+        <header class="agent-hero">
+          <nav class="agent-nav" aria-label="DMAIC Agent navigation">
+            <a class="brand-link" href="/">
+              <img src="../assets/excenor-global-logo.jpg" alt="Excenor Global" />
+            </a>
+            <a class="section-link" href="/">AI Maturity Scoring</a>
+          </nav>
+
+          <div class="agent-hero-grid">
+            <div class="agent-hero-copy">
+              <span class="eyebrow">Excenor Intelligence</span>
+              <h1>DMAIC Agent</h1>
+              <p>
+                Structure process improvement opportunities using Define, Measure, Analyze, Improve, and Control.
+                The agent turns an early problem statement into a practical Lean Six Sigma diagnostic report for
+                expert review.
+              </p>
+              <div class="agent-disclaimer">
+                AI-assisted output for initial diagnosis. Review with an Excenor expert before client use.
+              </div>
+            </div>
+
+            <div class="agent-hero-card" aria-label="DMAIC framework">
+              <span>Framework</span>
+              <div class="dmaic-rings" aria-hidden="true">
+                <strong>D</strong>
+                <strong>M</strong>
+                <strong>A</strong>
+                <strong>I</strong>
+                <strong>C</strong>
+              </div>
+              <p>Define the problem, measure the baseline, analyze causes, improve flow, and control the gain.</p>
+            </div>
+          </div>
+        </header>
+
+        <section class="agent-workbench" aria-label="DMAIC Agent workbench">
+          <form class="dmaic-form" id="dmaicForm">
+            <div>
+              <span class="eyebrow">Project Inputs</span>
+              <h2>Describe the process problem</h2>
+              <p>
+                Add enough context for a useful first-pass diagnostic. Required fields are marked clearly.
+              </p>
+            </div>
+
+            <div class="form-grid">
+              <label>
+                <span>Business / Company Name</span>
+                <input id="companyName" name="companyName" autocomplete="organization" />
+              </label>
+              <label>
+                <span>Industry</span>
+                <input id="industry" name="industry" />
+              </label>
+              <label>
+                <span>Process Name *</span>
+                <input id="processName" name="processName" required />
+              </label>
+              <label>
+                <span>Desired Outcome</span>
+                <input id="desiredOutcome" name="desiredOutcome" />
+              </label>
+            </div>
+
+            <label>
+              <span>Problem Statement *</span>
+              <textarea
+                id="problemStatement"
+                name="problemStatement"
+                rows="4"
+                required
+                placeholder="Example: Invoice approvals take too long and require repeated follow-ups across finance and operations."
+              ></textarea>
+            </label>
+
+            <label>
+              <span>Current Pain Points</span>
+              <textarea
+                id="painPoints"
+                name="painPoints"
+                rows="3"
+                placeholder="Example: Duplicate checks, unclear ownership, delayed approvals, rework, customer complaints."
+              ></textarea>
+            </label>
+
+            <label>
+              <span>Available Data / Metrics</span>
+              <textarea
+                id="availableData"
+                name="availableData"
+                rows="3"
+                placeholder="Example: Cycle time, defect rate, volume, backlog, SLA misses, cost per transaction."
+              ></textarea>
+            </label>
+
+            <div class="agent-form-actions">
+              <button class="primary-button" id="generateButton" type="submit">Generate DMAIC Report</button>
+              <button class="secondary-button" id="resetButton" type="button">Reset</button>
+            </div>
+          </form>
+
+          <aside class="agent-side-panel">
+            <span class="eyebrow">What You Receive</span>
+            <h2>Consulting-ready structure</h2>
+            <ul>
+              <li>Refined problem statement and project goal.</li>
+              <li>KPIs, data requirements, and baseline approach.</li>
+              <li>Root-cause hypotheses and suggested Lean Six Sigma tools.</li>
+              <li>Improvement actions, automation ideas, and AI opportunities.</li>
+              <li>Control plan, ownership model, and 30 / 60 / 90 day action plan.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section class="report-shell" id="reportShell" hidden aria-live="polite">
+          <div class="report-toolbar">
+            <div>
+              <span class="eyebrow">Generated Output</span>
+              <h2>DMAIC Diagnostic Report</h2>
+            </div>
+            <button class="secondary-button" id="copyButton" type="button">Copy Report</button>
+          </div>
+
+          <div class="status-message loading-state" id="loadingState" hidden>
+            Building a structured DMAIC report...
+          </div>
+          <div class="status-message error-state" id="errorState" hidden></div>
+          <div class="copy-status" id="copyStatus" hidden>Report copied.</div>
+          <div class="report-content" id="reportContent"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="./dmaic-agent.js"></script>
+  </body>
+</html>
