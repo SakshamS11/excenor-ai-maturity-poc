@@ -11,7 +11,7 @@ A static proof of concept for a conversational AI maturity scoring product.
 5. Save the lead, transcript, score, and short internal summary.
 6. Offer an AI advisor follow-up and proposal request CTA.
 
-The AI advisor is grounded in Excenor's brochure positioning, 5D engagement model, service portfolio, and outcome language. It adapts answers to the user's free-text industry entry.
+The AI advisor is grounded in a server-side Excenor Knowledge Layer curated from the Excenor Global brochure and excenorglobal.com. It includes Excenor's positioning, 5D engagement model, flagship capabilities, service portfolio, sector language, outcome themes, and response guardrails. It adapts answers to the user's free-text industry entry while keeping recommendations anchored to Excenor.
 
 ## Excenor Intelligence
 
@@ -50,7 +50,17 @@ Set these in Vercel when moving beyond demo mode:
 - `GEMINI_API_KEY`: enables live Gemini AI advisor responses through `/api/chat`.
 - `GEMINI_API_KEY`: enables live Process Intelligence reports through `/api/process-diagnostic`.
 - `GEMINI_API_KEY`: also enables live DMAIC Agent reports through `/api/dmaic-agent`. `GOOGLE_API_KEY` is accepted as a fallback name for this route, but `GEMINI_API_KEY` is the preferred project convention.
-- `GEMINI_MODEL`: optional model override. Defaults to `gemini-2.5-flash-lite`.
+- `GEMINI_MODEL`: optional model override. Defaults to `gemini-2.5-flash`, recommended for Excenor-aware consulting responses.
 - `LEADS_WEBHOOK_URL`: optional webhook endpoint for server-side lead capture. Without this, the POC saves lead snapshots in browser storage.
 
 If `GEMINI_API_KEY` is missing, the DMAIC Agent returns a structured demo report so the page can still be tested locally.
+
+## Excenor Knowledge Layer
+
+The shared server-side knowledge layer lives in `api/excenor-knowledge.js`. It is imported by:
+
+- `/api/chat`
+- `/api/dmaic-agent`
+- `/api/process-diagnostic`
+
+The knowledge layer constrains AI outputs to Excenor's consulting identity: AI-enabled business excellence, process excellence and BPR, Lean Six Sigma, cybersecurity and digital trust, ISO and business excellence, project delivery, capability building, and the 5D method of Discover, Diagnose, Design, Deploy and Demonstrate. API keys and prompts stay server-side.

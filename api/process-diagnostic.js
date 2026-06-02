@@ -1,3 +1,5 @@
+import { EXCENOR_DEFAULT_MODEL, buildExcenorPromptSection } from "./excenor-knowledge.js";
+
 export default async function handler(request, response) {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
@@ -69,7 +71,7 @@ function validateInput(input) {
 async function generateGeminiReport(input) {
   const { GoogleGenAI } = await import("@google/genai");
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-  const model = process.env.GEMINI_MODEL || "gemini-2.5-flash-lite";
+  const model = process.env.GEMINI_MODEL || EXCENOR_DEFAULT_MODEL;
 
   const result = await ai.models.generateContent({
     model,
@@ -90,8 +92,9 @@ async function generateGeminiReport(input) {
 function buildSystemInstruction() {
   return `
 You are the Excenor Process Intelligence Agent, an AI-enabled consulting accelerator for Excenor Global.
-Excenor Global is a boutique transformation, advisory, consulting, cyber & digital trust, project delivery, ISO/business excellence, Lean Six Sigma and capability-building firm.
 Your role is to analyse a business process using structured process excellence, Lean Six Sigma, risk, control, governance, automation, AI readiness, change management and measurable outcome thinking.
+
+${buildExcenorPromptSection()}
 
 You must produce a practical consulting-style diagnostic report. You are not a generic chatbot. You think like a senior Excenor consultant. You must be clear, structured, practical and business-friendly.
 

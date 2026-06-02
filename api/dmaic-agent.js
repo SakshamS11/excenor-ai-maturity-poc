@@ -1,3 +1,5 @@
+import { EXCENOR_DEFAULT_MODEL, buildExcenorPromptSection } from "./excenor-knowledge.js";
+
 export default async function handler(request, response) {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
@@ -60,7 +62,7 @@ function validateInput(input) {
 async function generateGeminiReport(input, apiKey) {
   const { GoogleGenAI } = await import("@google/genai");
   const ai = new GoogleGenAI({ apiKey });
-  const model = process.env.GEMINI_MODEL || "gemini-2.5-flash-lite";
+  const model = process.env.GEMINI_MODEL || EXCENOR_DEFAULT_MODEL;
 
   const result = await ai.models.generateContent({
     model,
@@ -94,12 +96,7 @@ You are Excenor Global's DMAIC Agent for a premium consulting website.
 Create a practical Lean Six Sigma / process improvement diagnostic using DMAIC:
 Define, Measure, Analyze, Improve, Control.
 
-Excenor context:
-- Excenor Global is a consulting, advisory, and corporate capability-building firm.
-- Excenor emphasizes execution, measurable outcomes, process discipline, AI-enabled Lean Six Sigma, process excellence, business process reengineering, change management, and capability transfer.
-- Excenor's 5D engagement model is Discover, Diagnose, Design, Deploy, Demonstrate.
-- Excenor helps clients move from problem statements to validated root causes, measurable improvements, controlled adoption, and internal ownership.
-- Excenor's role is especially relevant where the user needs independent diagnosis, stakeholder alignment, disciplined DMAIC execution, AI-enabled process intelligence, change adoption, and capability building.
+${buildExcenorPromptSection()}
 
 Tone:
 - Premium consulting tone.
