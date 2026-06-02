@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Excenor Process Intelligence Agent for AI-enabled process diagnostic reports."
+    />
+    <title>Excenor Global | Process Intelligence Agent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <main class="app-shell intelligence-shell">
+      <section class="agent-page process-agent-page">
+        <header class="agent-hero process-hero">
+          <nav class="agent-nav" aria-label="Process Intelligence Agent navigation">
+            <a class="brand-link" href="/">
+              <img src="../assets/excenor-global-logo.jpg" alt="Excenor Global" />
+            </a>
+            <div class="header-actions">
+              <a class="section-link" href="/intelligence/dmaic-agent">DMAIC Agent</a>
+              <a class="section-link" href="/">AI Maturity Scoring</a>
+            </div>
+          </nav>
+
+          <div class="agent-hero-grid">
+            <div class="agent-hero-copy">
+              <span class="eyebrow">Excenor Intelligence</span>
+              <h1>Excenor Process Intelligence Agent</h1>
+              <p>
+                Diagnose process friction. Redesign smarter. Improve with measurable control.
+              </p>
+              <div class="agent-disclaimer">
+                An AI-enabled consulting accelerator for process excellence, automation readiness,
+                risk visibility, and measurable transformation.
+              </div>
+            </div>
+
+            <div class="agent-hero-card process-lens-card" aria-label="Process diagnostic lenses">
+              <span>Diagnostic Lens</span>
+              <div class="lens-stack" aria-hidden="true">
+                <strong>Friction</strong>
+                <strong>Automation</strong>
+                <strong>Controls</strong>
+                <strong>KPIs</strong>
+                <strong>5D Roadmap</strong>
+              </div>
+              <p>
+                A structured Excenor-style report for leaders, process owners, transformation teams,
+                PMO, quality, risk, compliance, and operations.
+              </p>
+            </div>
+          </div>
+        </header>
+
+        <section class="agent-workbench process-workbench" aria-label="Process Intelligence diagnostic workbench">
+          <form class="dmaic-form process-form" id="processDiagnosticForm" novalidate>
+            <div>
+              <span class="eyebrow">Diagnostic Inputs</span>
+              <h2>Describe the process challenge</h2>
+              <p>
+                Start with what you know. The agent will separate confirmed inputs from assumptions and highlight
+                what Excenor should validate in a discovery conversation.
+              </p>
+            </div>
+
+            <div class="privacy-note">
+              Please avoid entering highly confidential, personal, regulated or sensitive information in this POC.
+              For live client use, Excenor can configure secure deployment, access controls and data governance.
+            </div>
+
+            <div class="form-grid">
+              <label>
+                <span>Business / Company Name</span>
+                <input
+                  id="companyName"
+                  name="companyName"
+                  placeholder="Example: ABC Retail & Distribution LLC"
+                  autocomplete="organization"
+                />
+                <small>Optional. Helps personalize the report language.</small>
+              </label>
+              <label>
+                <span>Industry</span>
+                <input
+                  id="industry"
+                  name="industry"
+                  placeholder="Example: Retail, Banking, Healthcare, Manufacturing, Shared Services, Government"
+                />
+                <small>Optional. Helps tailor risks, KPIs and stakeholders.</small>
+              </label>
+              <label>
+                <span>Process Name *</span>
+                <input
+                  id="processName"
+                  name="processName"
+                  placeholder="Example: Invoice Approval and Vendor Payment Process"
+                  required
+                />
+                <small class="field-error" id="processNameError"></small>
+              </label>
+              <label>
+                <span>Desired Outcome</span>
+                <input
+                  id="desiredOutcome"
+                  name="desiredOutcome"
+                  placeholder="Example: Reduce cycle time, improve approval visibility, reduce rework"
+                />
+                <small>Optional but useful. Describe the business outcome you want.</small>
+              </label>
+            </div>
+
+            <label>
+              <span>Process Description *</span>
+              <textarea
+                id="processDescription"
+                name="processDescription"
+                rows="4"
+                placeholder="Briefly describe how the process currently works. Who starts it, who approves it, what systems or documents are used, and where it ends?"
+                required
+              ></textarea>
+              <small class="field-error" id="processDescriptionError"></small>
+            </label>
+
+            <label>
+              <span>Problem Statement *</span>
+              <textarea
+                id="problemStatement"
+                name="problemStatement"
+                rows="4"
+                placeholder="Example: Invoice approvals take too long and require repeated follow-ups across finance, procurement and operations."
+                required
+              ></textarea>
+              <small class="field-error" id="problemStatementError"></small>
+            </label>
+
+            <div class="form-grid">
+              <label>
+                <span>Risk / Compliance Sensitivity</span>
+                <select id="riskSensitivity" name="riskSensitivity">
+                  <option value="Not Sure">Not Sure</option>
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+                <small>Choose High if approvals, audit, privacy, financial controls or sensitive records are involved.</small>
+              </label>
+              <label>
+                <span>Improvement Priority</span>
+                <select id="improvementPriority" name="improvementPriority">
+                  <option value="Not Sure">Not Sure</option>
+                  <option value="Speed / Cycle Time">Speed / Cycle Time</option>
+                  <option value="Cost Reduction">Cost Reduction</option>
+                  <option value="Quality / Error Reduction">Quality / Error Reduction</option>
+                  <option value="Automation">Automation</option>
+                  <option value="Compliance / Control">Compliance / Control</option>
+                  <option value="Customer Experience">Customer Experience</option>
+                  <option value="Governance / Visibility">Governance / Visibility</option>
+                </select>
+                <small>Pick the strongest current business driver.</small>
+              </label>
+            </div>
+
+            <label>
+              <span>Current Pain Points</span>
+              <textarea
+                id="painPoints"
+                name="painPoints"
+                rows="3"
+                placeholder="Example: Duplicate checks, unclear ownership, delayed approvals, rework, SLA misses, customer complaints, manual tracking."
+              ></textarea>
+              <small>Optional. List the symptoms users and leaders complain about most.</small>
+            </label>
+
+            <label>
+              <span>Available Data / Metrics</span>
+              <textarea
+                id="availableMetrics"
+                name="availableMetrics"
+                rows="3"
+                placeholder="Example: Cycle time, defect rate, volume, backlog, SLA misses, cost per transaction, approval ageing, complaint count."
+              ></textarea>
+              <small>Optional. The agent will not invent exact numbers if data is missing.</small>
+            </label>
+
+            <label>
+              <span>Uploaded / Reference Information</span>
+              <textarea
+                id="referenceInfo"
+                name="referenceInfo"
+                rows="3"
+                placeholder="Paste SOP notes, audit findings, customer complaints, workflow notes, or policy observations here."
+              ></textarea>
+              <small>Optional. Text paste is enough for this POC.</small>
+            </label>
+
+            <div class="form-grid">
+              <label>
+                <span>Current Systems / Tools Used</span>
+                <input
+                  id="currentSystems"
+                  name="currentSystems"
+                  placeholder="Example: Excel, ERP, email approvals, CRM, ticketing system, SharePoint, manual forms"
+                />
+                <small>Optional. Helps identify automation readiness.</small>
+              </label>
+              <label>
+                <span>Process Frequency / Volume</span>
+                <input
+                  id="processVolume"
+                  name="processVolume"
+                  placeholder="Example: 500 invoices per month, 100 service requests per week"
+                />
+                <small>Optional. Helps size urgency and implementation priority.</small>
+              </label>
+              <label>
+                <span>Main Stakeholders</span>
+                <input
+                  id="stakeholders"
+                  name="stakeholders"
+                  placeholder="Example: Finance, Procurement, Operations, Compliance, IT, Business Head"
+                />
+                <small>Optional. Helps shape RACI and change actions.</small>
+              </label>
+            </div>
+
+            <div class="agent-form-actions">
+              <button class="primary-button" id="generateProcessButton" type="submit">
+                Generate Process Diagnostic
+              </button>
+              <button class="secondary-button" id="processResetButton" type="button">Start New Diagnostic</button>
+            </div>
+          </form>
+
+          <aside class="agent-side-panel">
+            <span class="eyebrow">Report Coverage</span>
+            <h2>What the agent will structure</h2>
+            <ul>
+              <li>Process diagnosis, friction points and root-cause view.</li>
+              <li>Automation opportunities and AI-enabled improvement ideas.</li>
+              <li>Risk, control, auditability, privacy and cyber considerations where relevant.</li>
+              <li>Leadership KPIs and implementation priorities.</li>
+              <li>Excenor 5D roadmap and support pathway.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section class="report-shell process-report-shell" id="processReportShell" hidden aria-live="polite">
+          <div class="report-toolbar">
+            <div>
+              <span class="eyebrow">Generated Output</span>
+              <h2>Process Intelligence Diagnostic Report</h2>
+            </div>
+            <div class="agent-form-actions">
+              <button class="secondary-button" id="copyProcessReportButton" type="button">Copy Report</button>
+              <button class="secondary-button" id="generateAgainButton" type="button">Generate Again</button>
+            </div>
+          </div>
+
+          <div class="status-message loading-state" id="processLoadingState" hidden>
+            Analysing your process through Excenor's process excellence, risk, control and automation lens...
+          </div>
+          <div class="status-message error-state" id="processErrorState" hidden>
+            We could not generate the diagnostic right now. Please try again.
+          </div>
+          <div class="copy-status" id="processCopyStatus" hidden>Report copied.</div>
+          <div class="empty-report-state" id="processEmptyState">
+            Describe a process challenge and receive an AI-enabled diagnostic report covering process friction,
+            automation opportunities, control gaps, KPIs and implementation priorities.
+          </div>
+          <div class="markdown-report" id="processReportContent"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="./process-intelligence-agent.js"></script>
+  </body>
+</html>
