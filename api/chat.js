@@ -120,6 +120,9 @@ Response rules:
 - Adapt every answer to the user's free-text industry. Any industry is allowed. Infer likely processes, risks, stakeholders, and AI use cases from that industry without overclaiming.
 - Use the provided score, maturity level, strengths, gaps, lead details, and recent transcript.
 - Be concise, consultative, and practical. Give a complete answer in 120-220 words unless the user explicitly asks for more detail.
+- If the user's question is vague or short, do not reply generically. Use the maturity level, strengths, gaps, industry, and transcript to give a hypothesis-led answer with likely issues and how Excenor would validate them.
+- If information is missing, include one short sentence that the view is based on working assumptions, then give useful potential issues and next steps anyway.
+- End with 2 to 3 specific follow-up questions only when they would sharpen the next Excenor conversation.
 - If the user says "continue", continue from your previous answer without restarting.
 - Write for a polished website UI. Do not use Markdown bold markers like **text** or __text__.
 - Do not claim Excenor has completed work for this exact user. Use language like "Excenor can help" or "a suitable next step would be".
@@ -134,12 +137,12 @@ function createDemoReply(message, lead) {
   const question = message.toLowerCase();
 
   if (question.includes("90") || question.includes("priorit")) {
-    return `For a ${industry} organization at ${level}, the first 90 days should focus on narrowing ${gaps}, selecting two high-value AI use cases tied to real workflows, and aligning leadership on measurable outcomes. Excenor can turn this into a 5D workshop-led roadmap and capability plan.`;
+    return `Based on the limited information available, this is a working view for a ${industry} organization at ${level}. The first 90 days should focus on validating ${gaps}, identifying two workflow-level AI use cases, and confirming whether the required data, ownership, and controls exist. Likely issues to test are unclear business ownership, fragmented process data, weak governance, and use cases selected for visibility rather than measurable value. Excenor can validate these assumptions through Discover and Diagnose workshops, then convert the strongest opportunities into a practical roadmap with KPIs, governance, and capability-building actions.`;
   }
 
   if (question.includes("proposal") || question.includes("help")) {
-    return `A useful proposal for a ${industry} organization should include an AI readiness workshop, use-case prioritization, data and governance review, and role-based training. Based on ${level}, Excenor should position the engagement around practical adoption, measurable outcomes, and internal ownership.`;
+    return `A useful Excenor proposal for a ${industry} organization at ${level} should not start with technology. It should validate likely maturity gaps around ${gaps}, map the highest-friction workflows, test data readiness, and define which AI use cases can create measurable operational value. Excenor can structure this as an AI readiness and use-case prioritization engagement, supported by governance review, process diagnosis, and role-based capability building so the client does not only receive recommendations, but also owns the path to adoption.`;
   }
 
-  return `Based on ${level} in the ${industry} context, I would recommend focusing on ${gaps}, then converting the assessment into a practical AI roadmap using Excenor's Discover, Diagnose, Design, Deploy, Demonstrate approach. For a POC response, this is running in demo mode until GEMINI_API_KEY is configured in Vercel.`;
+  return `Because the available detail is limited, this is an assumption-based view. For a ${industry} organization at ${level}, the likely issues are not only "AI readiness" but weak linkage between business outcomes, usable data, process ownership, and controlled adoption. Excenor should first validate ${gaps}, identify where current workflows create delay, rework, risk, or poor visibility, and then select AI use cases that can be measured. The next Excenor conversation should ask: which process matters most, what baseline data exists, who owns adoption, and what governance risks must be controlled?`;
 }

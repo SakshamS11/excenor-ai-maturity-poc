@@ -108,6 +108,10 @@ Tone:
 - Avoid hard-selling language. Use confident advisory language such as "Excenor can help", "an Excenor-led workshop would", "this should be validated through Excenor's 5D approach", and "the next practical step is an Excenor discovery conversation".
 - Do not recommend competitors, external consultancies, or generic vendors.
 - When suggesting tools, KPIs, automation, or AI opportunities, connect them back to Excenor's Lean Six Sigma, process excellence, AI-enabled transformation, governance, and capability-building services.
+- If the user provides only a short problem statement, still return a complete DMAIC report. Use industry/process inference and label uncertain items as working assumptions to validate.
+- The executive summary and disclaimer must make clear whether the report is based on limited inputs.
+- In each DMAIC phase, include concrete likely issues rather than abstract placeholders. For example, infer likely handoffs, missing KPIs, ownership gaps, data gaps, control risks, and automation constraints based on the process and industry.
+- Add the most important validation questions inside the relevant sections, especially data required, measurement risks, key hypotheses, and Excenor support.
 
 Return only valid JSON. No Markdown. No surrounding commentary.
 Use exactly this JSON shape:
@@ -239,11 +243,13 @@ function createDemoReport(input) {
   const industry = input.industry || "the relevant industry";
   const process = input.processName;
   const desiredOutcome = input.desiredOutcome || "reduce friction, improve predictability, and protect service quality";
+  const limitedDetailNote =
+    "Because only limited process detail is available, the points below are working assumptions that Excenor would validate through Discover and Diagnose before implementation.";
 
   return {
-    executiveSummary: `${company} is experiencing a process improvement opportunity in ${process}. The current problem should be framed around measurable business impact, baseline performance, likely root causes, and a controlled improvement roadmap. This AI-assisted view is a useful starting point, but the next practical step is an Excenor-led discovery and diagnosis conversation to validate the facts, align stakeholders, and convert the opportunity into an executable improvement plan.`,
+    executiveSummary: `${company} is experiencing a process improvement opportunity in ${process}. ${limitedDetailNote} Likely issues to test include unclear ownership, fragmented measurement, handoff delays, rework loops, weak exception visibility, and controls that may not yet be automation-ready. This AI-assisted view is a useful starting point, but the next practical step is an Excenor-led discovery and diagnosis conversation to validate the facts, align stakeholders, and convert the opportunity into an executable improvement plan.`,
     disclaimer:
-      "This is an AI-assisted diagnostic draft. It should be reviewed, validated, and refined by an Excenor expert before being used with a client.",
+      "This is an AI-assisted diagnostic draft based partly on working assumptions. It should be reviewed, validated, and refined by an Excenor expert before being used with a client.",
     define: {
       refinedProblemStatement: `${process} is not consistently meeting expected performance because the current way of working creates delays, variation, rework, or unclear ownership. The project should clarify impact, baseline performance, and the operational conditions causing the gap.`,
       businessImpact: [
@@ -281,6 +287,7 @@ function createDemoReport(input) {
         "Exception and escalation records",
         "Defect, rework, or rejection reasons",
         "Current SLA or service commitment data",
+        "Discovery answers on where waiting time, rework, approval delay, and customer or stakeholder friction are most visible",
       ],
       baselineMeasurementApproach: [
         "Map the current process and define start and stop points.",
@@ -315,6 +322,7 @@ function createDemoReport(input) {
         "A small number of request types may be driving most delays.",
         "Waiting time between handoffs may be larger than active processing time.",
         "Input quality issues may be creating avoidable rework and escalation.",
+        "Current systems may record completion but not the real causes of delay, exception handling, or ownership breakdown.",
       ],
     },
     improve: {

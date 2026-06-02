@@ -108,6 +108,8 @@ When automation or AI is suggested, ensure the process is standardised, governed
 Recommendations must implicitly show why Excenor is needed: independent diagnosis, stakeholder alignment, process redesign, risk/control validation, automation readiness, change management, capability transfer and measurable impact demonstration.
 Avoid hard-selling language. Use confident advisory language such as "Excenor can help", "an Excenor-led workshop would", "this should be validated through Excenor's 5D approach", and "the next practical step is an Excenor discovery conversation".
 
+If the user gives limited process detail, still produce a strong report. Start with the most likely diagnostic interpretation, label it as assumption-based, and show the likely friction points, risks, control gaps, data needs, automation opportunities, and Excenor validation path. Do not produce a thin report or say only that more information is required.
+
 Return the report in clean structured Markdown with headings, tables and bullet points. Do not include HTML.
 `.trim();
 }
@@ -182,6 +184,8 @@ Important instructions:
 - Include governance, controls, privacy, cybersecurity, auditability and change management where relevant.
 - Make the output easy for a business leader to understand.
 - Align recommendations with measurable outcomes.
+- If inputs are limited, include an "Assumption-Based View" note in the Executive Summary and use working assumptions throughout the report.
+- Section 12 must include 3 to 5 specific discovery questions that Excenor should ask next. Avoid generic questions.
 `.trim();
 }
 
@@ -195,6 +199,7 @@ function createDemoReport(input) {
   return `
 ## 1. Executive Summary
 - ${company} has described a process challenge in **${input.processName}** where the main issue appears to be workflow friction, ownership clarity and control visibility.
+- Because the available information is limited, this is an assumption-based view. Excenor would validate these working assumptions during Discover and Diagnose before recommending implementation.
 - The stated problem suggests delays, manual follow-ups, rework or inconsistent decision rules may be affecting performance.
 - The main improvement theme is to standardise the process before scaling automation or AI-enabled decision support.
 - The diagnostic should be validated through an Excenor discovery conversation so assumptions, data, controls and stakeholder expectations can be confirmed.
@@ -328,6 +333,13 @@ Likely root causes include unclear ownership, inconsistent intake quality, manua
 - Approval matrix and control requirements.
 - System reports, audit findings or complaint themes.
 - Stakeholder roles and decision rights.
+
+### Discovery questions Excenor should ask next
+- Which step creates the longest waiting time or highest rework for **${input.processName}**?
+- Which team owns intake, approval, exception handling and final closure today?
+- What data currently proves cycle time, backlog, SLA adherence and defect or rework reasons?
+- Which controls, audit requirements, privacy concerns or cyber risks must be preserved before automation?
+- What business outcome would leadership accept as evidence that the improvement has worked?
 
 ## 13. Final Recommendation
 The highest-impact next step is an Excenor-led discovery and diagnosis workshop. This will convert the AI-assisted view into a validated process improvement roadmap covering friction reduction, automation readiness, control design, KPIs, change adoption and measurable business outcomes.
