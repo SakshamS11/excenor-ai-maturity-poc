@@ -256,6 +256,7 @@ const advisorPanel = document.querySelector("#advisorPanel");
 const advisorForm = document.querySelector("#advisorForm");
 const advisorInput = document.querySelector("#advisorInput");
 const advisorThread = document.querySelector("#advisorThread");
+const agentSelector = document.querySelector("#agentSelector");
 const progressFill = document.querySelector("#progressFill");
 const restartButton = document.querySelector("#restartButton");
 const saveStatus = document.querySelector("#saveStatus");
@@ -454,6 +455,65 @@ function renderDimensionBreakdown(dimensionScores) {
   });
 }
 
+function renderAgentSelector(result) {
+  if (!agentSelector) {
+    return;
+  }
+
+  const industry = state.user?.industry || "your industry";
+  const topGaps = result.weakest.map((dimension) => dimension.shortLabel).join(" and ");
+  const advisorPrompt = `Based on our ${result.level.name} result in ${industry}, what should Excenor validate first across ${topGaps}?`;
+
+  const actions = [
+    {
+      eyebrow: "Advisor",
+      title: "Ask about the result",
+      body: "Get a concise Excenor-aware view of maturity gaps, likely assumptions, and the next discovery conversation.",
+      action: "Use Advisor",
+      onClick: () => {
+        advisorInput.value = advisorPrompt;
+        advisorInput.focus();
+      },
+    },
+    {
+      eyebrow: "Process Agent",
+      title: "Diagnose process friction",
+      body: "Use this when the maturity result points to weak use cases, unclear process ownership, automation readiness, or poor visibility.",
+      href: "/intelligence/process-intelligence-agent",
+      action: "Open Process Agent",
+    },
+    {
+      eyebrow: "DMAIC Agent",
+      title: "Structure a problem",
+      body: "Use this when you already know the process problem and want a Define, Measure, Analyze, Improve, Control report.",
+      href: "/intelligence/dmaic-agent",
+      action: "Open DMAIC Agent",
+    },
+  ];
+
+  agentSelector.replaceChildren();
+
+  actions.forEach((item) => {
+    const element = item.href ? document.createElement("a") : document.createElement("button");
+    element.className = "agent-choice-card";
+
+    if (item.href) {
+      element.href = item.href;
+    } else {
+      element.type = "button";
+      element.addEventListener("click", item.onClick);
+    }
+
+    element.innerHTML = `
+      <span class="eyebrow">${item.eyebrow}</span>
+      <strong>${item.title}</strong>
+      <small>${item.body}</small>
+      <em>${item.action}</em>
+    `;
+    agentSelector.append(element);
+  });
+}
+
 function animateScore(score) {
   const target = document.querySelector("#resultScore");
   const duration = 1000;
@@ -506,6 +566,7 @@ function showResult() {
   document.querySelector("#resultNarrative").textContent = `${state.user.organization} appears to be at the ${result.level.name} stage. ${result.level.narrative}`;
 
   renderDimensionBreakdown(dimensionScores);
+  renderAgentSelector(result);
   listItems(document.querySelector("#strengthList"), result.strengths);
   listItems(
     document.querySelector("#gapList"),

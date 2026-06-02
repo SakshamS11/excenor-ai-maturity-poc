@@ -792,6 +792,63 @@ li {
   background: #fbfcff;
 }
 
+.agent-selector {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.agent-choice-card {
+  display: grid;
+  gap: 8px;
+  min-height: 178px;
+  padding: 18px;
+  border: 1px solid rgba(38, 59, 130, 0.16);
+  border-radius: 8px;
+  color: inherit;
+  background:
+    linear-gradient(180deg, #ffffff, #fbfcff);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.agent-choice-card:hover {
+  border-color: rgba(38, 59, 130, 0.32);
+  box-shadow: 0 18px 34px rgba(38, 59, 130, 0.12);
+  transform: translateY(-2px);
+}
+
+.agent-choice-card strong,
+.agent-choice-card small,
+.agent-choice-card em {
+  display: block;
+}
+
+.agent-choice-card strong {
+  color: var(--excenor-blue);
+  font-size: 17px;
+}
+
+.agent-choice-card small {
+  color: #475569;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.agent-choice-card em {
+  align-self: end;
+  color: var(--excenor-blue);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 900;
+}
+
 .advisor-thread-message {
   max-width: min(840px, 92%);
   padding: 16px 18px;
@@ -1015,6 +1072,11 @@ li {
   transform: translateY(-2px);
 }
 
+.product-card-link {
+  color: inherit;
+  text-decoration: none;
+}
+
 .product-step {
   position: absolute;
   top: 22px;
@@ -1202,6 +1264,185 @@ li {
 
 .intelligence-shell {
   padding-block: clamp(18px, 3vw, 38px);
+}
+
+.intelligence-hub-hero .agent-hero-copy h1 {
+  max-width: 940px;
+  font-size: clamp(40px, 6vw, 78px);
+}
+
+.intelligence-hub-grid {
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.72fr);
+}
+
+.intelligence-stack-card {
+  min-height: 410px;
+}
+
+.hub-5d-stack {
+  display: grid;
+  gap: 10px;
+  margin-block: 28px;
+}
+
+.hub-5d-stack strong {
+  display: block;
+  padding: 13px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-left: 5px solid var(--excenor-orange);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 14px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.hub-5d-stack strong:nth-child(2) {
+  border-left-color: var(--excenor-green);
+}
+
+.hub-5d-stack strong:nth-child(3) {
+  border-left-color: #7db3df;
+}
+
+.hub-5d-stack strong:nth-child(4) {
+  border-left-color: var(--excenor-red);
+}
+
+.hub-5d-stack strong:nth-child(5) {
+  border-left-color: #fff;
+}
+
+.hub-product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.hub-product-card {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  min-height: 360px;
+  padding: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(38, 59, 130, 0.18);
+  border-radius: 8px;
+  color: inherit;
+  background:
+    linear-gradient(180deg, #ffffff, #fbfcff);
+  text-decoration: none;
+  box-shadow: var(--shadow);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.hub-product-card::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  content: "";
+  background: linear-gradient(90deg, var(--excenor-blue), var(--excenor-orange), var(--excenor-green));
+}
+
+.hub-product-card.is-primary::before {
+  background: linear-gradient(90deg, var(--excenor-orange), var(--excenor-green), var(--excenor-blue));
+}
+
+.hub-product-card:hover {
+  border-color: rgba(38, 59, 130, 0.32);
+  box-shadow: 0 28px 70px rgba(38, 59, 130, 0.18);
+  transform: translateY(-3px);
+}
+
+.hub-product-card h2 {
+  margin-bottom: 0;
+  color: var(--excenor-blue);
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.12;
+}
+
+.hub-product-card p {
+  color: #475569;
+  line-height: 1.62;
+}
+
+.hub-card-footer {
+  align-self: end;
+  padding-top: 16px;
+  border-top: 1px solid rgba(38, 59, 130, 0.12);
+}
+
+.hub-card-footer strong,
+.hub-card-footer span {
+  display: block;
+}
+
+.hub-card-footer strong {
+  margin-bottom: 6px;
+  color: var(--excenor-blue);
+  font-size: 13px;
+}
+
+.hub-card-footer span {
+  color: #475569;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.hub-operating-model {
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+  gap: 22px;
+  margin-top: 28px;
+  padding: 28px;
+  border: 1px solid rgba(38, 59, 130, 0.18);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.hub-operating-model h2 {
+  margin-bottom: 12px;
+  font-size: clamp(26px, 3vw, 38px);
+}
+
+.hub-operating-model p {
+  color: #475569;
+  line-height: 1.65;
+}
+
+.operating-model-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.operating-model-grid article {
+  min-height: 132px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, #ffffff, #fbfcff);
+}
+
+.operating-model-grid strong,
+.operating-model-grid span {
+  display: block;
+}
+
+.operating-model-grid strong {
+  margin-bottom: 8px;
+  color: var(--excenor-blue);
+}
+
+.operating-model-grid span {
+  color: #475569;
+  line-height: 1.5;
 }
 
 .agent-page {
@@ -1652,10 +1893,14 @@ li {
   .result-grid,
   .insight-grid,
   .advisor-form,
+  .agent-selector,
   .friction-grid,
   .friction-dimensions,
   .agent-hero-grid,
-  .agent-workbench {
+  .agent-workbench,
+  .hub-product-grid,
+  .hub-operating-model,
+  .operating-model-grid {
     grid-template-columns: 1fr;
   }
 
