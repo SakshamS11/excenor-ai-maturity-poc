@@ -324,10 +324,15 @@ const resetButton = document.querySelector("#resetMaturityModelButton");
 const copyStatus = document.querySelector("#maturityCopyStatus");
 const reportTitle = document.querySelector("#reportTitle");
 const reportIntro = document.querySelector("#reportIntro");
+const aiInsightsStatus = document.querySelector("#aiInsightsStatus");
+const aiInsightsContent = document.querySelector("#aiInsightsContent");
+const refreshAiInsightsButton = document.querySelector("#refreshAiInsightsButton");
 
 const state = {
   currentQuestion: 0,
   answers: {},
+  currentModel: null,
+  aiInsights: null,
   context: {
     organization: "",
     industry: "",
@@ -626,9 +631,144 @@ function renderRoadmap(model) {
   });
 }
 
+function buildInsightsPayload(model) {
+  return {
+    organization: state.context.organization,
+    industry: state.context.industry,
+    ambition: state.context.ambition,
+    horizon: state.context.horizon,
+    readiness: model.readiness,
+    targetIndex: model.targetIndex,
+    maturityStage: model.level.name,
+    maturityNarrative: model.level.narrative,
+    topPriorities: model.prioritized.slice(0, 3).map((pillar) => ({
+      label: pillar.label,
+      current: pillar.current,
+      target: pillar.target,
+      gap: pillar.gap,
+      description: pillar.description,
+    })),
+    pillarResults: model.pillarResults.map((pillar) => ({
+      label: pillar.label,
+      current: pillar.current,
+      target: pillar.target,
+      gap: pillar.gap,
+      description: pillar.description,
+    })),
+    answers: maturityQuestions.map((question) => {
+      const answer = state.answers[question.id];
+      return {
+        question: question.text,
+        score: answer,
+        answer: question.options[answer - 1],
+      };
+    }),
+  };
+}
+
+function createClientFallbackInsights(model) {
+  const organization = state.context.organization || "the organization";
+  const industry = state.context.industry || "the selected industry";
+  const priorities = model.prioritized.slice(0, 3).map((pillar) => pillar.label);
+  const priorityText = priorities.join(", ");
+  const gap = Math.max(model.targetIndex - model.readiness, 0);
+
+  return {
+    executiveInsight: `${organization} is currently at the ${model.level.name} stage with a readiness index of ${model.readiness}/100. The result shows a practical AI opportunity, but the strongest value will come from strengthening ${priorityText} before scaling too many pilots.`,
+    maturityInterpretation: `The ${gap}-point gap to the target state should be read as an operating-model and execution-readiness gap. Excenor would validate where process standardization, data quality, governance, adoption, and benefit tracking are limiting AI scale in the ${industry} context.`,
+    priorityMoves: [
+      "Align leadership on the highest-value AI use cases, decision criteria, governance expectations and business outcomes.",
+      `Validate the top gaps in ${priorityText} through Excenor's Discover and Diagnose approach before technology selection.`,
+      "Select one controlled pilot with clear KPIs, accountable owners, human oversight and benefit tracking.",
+    ],
+    industryLens: [
+      `In ${industry}, AI should be tied to measurable outcomes such as speed, quality, risk control, customer experience, productivity, or leadership visibility.`,
+      "The best early opportunities are likely where repeated decisions, manual monitoring, fragmented data, exceptions, or rework are already visible.",
+      "AI should be introduced only with the right data, cyber/privacy controls, process ownership and change adoption routines.",
+    ],
+    risksToValidate: [
+      "Whether the data needed for priority use cases is complete, trusted, accessible and governed.",
+      "Whether process ownership and approval rights are clear enough to sustain AI-enabled workflows.",
+      "Whether teams have the capability, confidence and management cadence to adopt AI safely.",
+    ],
+    excenorNextStep:
+      "The next practical step is an Excenor Discover and Diagnose sprint to convert this assessment into a validated AI maturity roadmap, use-case portfolio, governance model, pilot plan and capability-building pathway.",
+    disclaimer:
+      "These insights are AI-assisted and based on the questionnaire response. They should be validated by an Excenor expert before being used for client recommendations or implementation decisions.",
+  };
+}
+
+function renderInsightList(title, items) {
+  return `
+    <article class="ai-insight-card">
+      <span>${escapeHtml(title)}</span>
+      <ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+    </article>
+  `;
+}
+
+function renderAiInsights(insights) {
+  state.aiInsights = insights;
+  aiInsightsContent.innerHTML = `
+    <article class="ai-insight-card ai-insight-card-wide">
+      <span>Executive Insight</span>
+      <p>${escapeHtml(insights.executiveInsight)}</p>
+    </article>
+    <article class="ai-insight-card ai-insight-card-wide">
+      <span>Maturity Interpretation</span>
+      <p>${escapeHtml(insights.maturityInterpretation)}</p>
+    </article>
+    ${renderInsightList("Priority Moves", insights.priorityMoves || [])}
+    ${renderInsightList("Industry Lens", insights.industryLens || [])}
+    ${renderInsightList("Risks To Validate", insights.risksToValidate || [])}
+    <article class="ai-insight-card ai-insight-card-wide ai-insight-next-step">
+      <span>Recommended Excenor Next Step</span>
+      <p>${escapeHtml(insights.excenorNextStep)}</p>
+      <small>${escapeHtml(insights.disclaimer)}</small>
+    </article>
+  `;
+}
+
+async function loadAiInsights(model) {
+  if (!aiInsightsStatus || !aiInsightsContent) {
+    return;
+  }
+
+  aiInsightsStatus.hidden = false;
+  aiInsightsStatus.textContent = "Generating AI insights...";
+  aiInsightsContent.replaceChildren();
+  refreshAiInsightsButton.disabled = true;
+
+  try {
+    const response = await fetch("/api/ai-maturity-insights", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(buildInsightsPayload(model)),
+    });
+
+    if (!response.ok) {
+      throw new Error("Insights API request failed.");
+    }
+
+    const data = await response.json();
+    renderAiInsights(data.insights || createClientFallbackInsights(model));
+    aiInsightsStatus.textContent =
+      data.mode === "live" ? "Live AI insights generated." : "Demo insights shown. Add GEMINI_API_KEY for live AI.";
+  } catch (error) {
+    renderAiInsights(createClientFallbackInsights(model));
+    aiInsightsStatus.textContent = "AI service is not available in this preview. Showing built-in Excenor insights.";
+  } finally {
+    refreshAiInsightsButton.disabled = false;
+  }
+}
+
 function renderReport() {
   const model = calculateModel();
   const organization = state.context.organization || "your organization";
+  state.currentModel = model;
+  state.aiInsights = null;
   readinessIndex.textContent = model.readiness;
   heroScore.textContent = model.readiness;
   maturityStage.textContent = model.level.name;
@@ -644,6 +784,7 @@ function renderReport() {
   renderGapChart(model.pillarResults);
   renderHeatmap(model.pillarResults);
   renderRoadmap(model);
+  loadAiInsights(model);
 }
 
 function showReport() {
@@ -680,6 +821,8 @@ function startQuestions() {
 function resetModel() {
   state.currentQuestion = 0;
   state.answers = {};
+  state.currentModel = null;
+  state.aiInsights = null;
   state.context = {
     organization: "",
     industry: "",
@@ -692,6 +835,8 @@ function resetModel() {
   questionCard.hidden = true;
   reportArea.hidden = true;
   copyStatus.hidden = true;
+  aiInsightsStatus.textContent = "Generating AI insights...";
+  aiInsightsContent.replaceChildren();
   heroScore.textContent = "--";
   organizationInput.focus();
 }
@@ -725,6 +870,20 @@ function buildReportText() {
     return `${question.text}\nAnswer: ${answer}/5 - ${question.options[answer - 1]}`;
   });
 
+  const insights = state.aiInsights
+    ? [
+        `Executive Insight: ${state.aiInsights.executiveInsight}`,
+        `Maturity Interpretation: ${state.aiInsights.maturityInterpretation}`,
+        "Priority Moves:",
+        ...(state.aiInsights.priorityMoves || []).map((item) => `- ${item}`),
+        "Industry Lens:",
+        ...(state.aiInsights.industryLens || []).map((item) => `- ${item}`),
+        "Risks To Validate:",
+        ...(state.aiInsights.risksToValidate || []).map((item) => `- ${item}`),
+        `Recommended Excenor Next Step: ${state.aiInsights.excenorNextStep}`,
+      ]
+    : ["AI Insights: Not generated yet."];
+
   return [
     "Excenor AI Maturity Model Report",
     context.join("\n"),
@@ -732,6 +891,8 @@ function buildReportText() {
     answers.join("\n\n"),
     "Capability Scores",
     pillars.join("\n"),
+    "AI Insights",
+    insights.join("\n"),
     "Priority Roadmap",
     priorities.join("\n"),
     "This is an AI-assisted POC diagnostic and should be validated through an Excenor discovery conversation.",
@@ -766,5 +927,10 @@ contextForm.addEventListener("submit", (event) => {
 
 previousButton.addEventListener("click", showPreviousQuestion);
 restartQuestionsButton.addEventListener("click", resetModel);
+refreshAiInsightsButton.addEventListener("click", () => {
+  if (state.currentModel) {
+    loadAiInsights(state.currentModel);
+  }
+});
 copyButton.addEventListener("click", copyReport);
 resetButton.addEventListener("click", resetModel);
