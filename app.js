@@ -476,6 +476,13 @@ function renderAgentSelector(result) {
       },
     },
     {
+      eyebrow: "Model",
+      title: "Compare current vs target",
+      body: "Use this when leaders want a maturity heat map, gap chart, radar view, and target-state roadmap.",
+      href: "/intelligence/ai-maturity-model",
+      action: "Open Maturity Model",
+    },
+    {
       eyebrow: "Process Agent",
       title: "Diagnose process friction",
       body: "Use this when the maturity result points to weak use cases, unclear process ownership, automation readiness, or poor visibility.",

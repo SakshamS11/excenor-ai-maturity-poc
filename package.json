@@ -6,7 +6,7 @@
   "description": "Static POC for Excenor Global AI Maturity Scoring.",
   "scripts": {
     "start": "npx serve .",
-    "check": "node --check app.js && node --check api/excenor-knowledge.js && node --check api/chat.js && node --check api/leads.js && node --check api/dmaic-agent.js && node --check api/process-diagnostic.js && node --check intelligence/dmaic-agent.js && node --check intelligence/process-intelligence-agent.js"
+    "check": "node --check app.js && node --check api/excenor-knowledge.js && node --check api/chat.js && node --check api/leads.js && node --check api/dmaic-agent.js && node --check api/process-diagnostic.js && node --check intelligence/ai-maturity-model.js && node --check intelligence/dmaic-agent.js && node --check intelligence/process-intelligence-agent.js"
   },
   "dependencies": {
     "@google/genai": "^1.0.0"

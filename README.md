@@ -16,6 +16,7 @@ The AI advisor is grounded in a server-side Excenor Knowledge Layer curated from
 ## Excenor Intelligence
 
 - `/intelligence`: Excenor Intelligence hub for the current AI-assisted diagnostic suite.
+- `/intelligence/ai-maturity-model`: interactive AI Maturity Model page with current vs target scoring, radar chart, gap chart, heat map and Excenor roadmap priorities.
 - `/intelligence/process-intelligence-agent`: Process Intelligence Agent page for AI-enabled process diagnostic reports.
 - `/api/process-diagnostic`: server-side Vercel function that generates a structured Markdown process diagnostic report.
 - `/intelligence/dmaic-agent`: DMAIC Agent page for structuring Lean Six Sigma and process improvement problems.

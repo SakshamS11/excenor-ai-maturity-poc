@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Excenor AI Maturity Model application with interactive scoring, visualizations and roadmap priorities."
+    />
+    <title>Excenor Global | AI Maturity Model</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <main class="app-shell intelligence-shell">
+      <section class="agent-page maturity-model-page">
+        <header class="agent-hero maturity-model-hero">
+          <nav class="agent-nav" aria-label="AI Maturity Model navigation">
+            <a class="brand-link" href="/">
+              <img src="../assets/excenor-global-logo.jpg" alt="Excenor Global" />
+            </a>
+            <div class="header-actions">
+              <a class="section-link" href="/intelligence">Intelligence Hub</a>
+              <a class="section-link" href="/intelligence/process-intelligence-agent">Process Agent</a>
+              <a class="section-link" href="/intelligence/dmaic-agent">DMAIC Agent</a>
+            </div>
+          </nav>
+
+          <div class="agent-hero-grid maturity-hero-grid">
+            <div class="agent-hero-copy">
+              <span class="eyebrow">Excenor Intelligence</span>
+              <h1>AI Maturity Model</h1>
+              <p>
+                Assess current and target AI maturity across seven enterprise capabilities, visualize the gaps,
+                and shape a practical Excenor roadmap for AI-enabled business excellence.
+              </p>
+              <div class="agent-disclaimer">
+                This is an Excenor-designed POC diagnostic. It is AI-readiness guidance for discovery conversations,
+                not a substitute for expert validation.
+              </div>
+            </div>
+
+            <div class="agent-hero-card maturity-hero-card" aria-label="Maturity model preview">
+              <span>Diagnostic Output</span>
+              <div class="maturity-orbit" aria-hidden="true">
+                <strong id="heroScore">0</strong>
+                <small>Readiness Index</small>
+              </div>
+              <p>Current maturity, target ambition, capability heat map, gap visualization and 30 / 60 / 90 day roadmap.</p>
+            </div>
+          </div>
+        </header>
+
+        <section class="maturity-workbench" aria-label="AI maturity model workbench">
+          <form class="maturity-controls" id="maturityModelForm">
+            <div>
+              <span class="eyebrow">Enterprise Context</span>
+              <h2>Set the assessment context</h2>
+              <p>
+                Add enough detail to make the roadmap useful. The model updates instantly as you adjust each pillar.
+              </p>
+            </div>
+
+            <div class="form-grid">
+              <label>
+                <span>Organization</span>
+                <input id="modelOrganization" name="organization" placeholder="Example: UrbanCart Retail" />
+              </label>
+              <label>
+                <span>Industry</span>
+                <input id="modelIndustry" name="industry" placeholder="Example: Retail, Healthcare, Manufacturing" />
+              </label>
+              <label>
+                <span>AI Ambition</span>
+                <select id="modelAmbition" name="ambition">
+                  <option value="Improve productivity and service visibility">Improve productivity and service visibility</option>
+                  <option value="Scale AI use cases across functions">Scale AI use cases across functions</option>
+                  <option value="Build predictive and preventive operating capability">Build predictive and preventive operating capability</option>
+                  <option value="Create AI-enabled business excellence engine">Create AI-enabled business excellence engine</option>
+                </select>
+              </label>
+              <label>
+                <span>Roadmap Horizon</span>
+                <select id="modelHorizon" name="horizon">
+                  <option value="90 days">90 days</option>
+                  <option value="6 months">6 months</option>
+                  <option value="12 months">12 months</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="maturity-pillar-list" id="pillarList" aria-label="AI maturity pillars"></div>
+
+            <div class="agent-form-actions">
+              <button class="primary-button" id="copyMaturityReportButton" type="button">Copy Report</button>
+              <button class="secondary-button" id="resetMaturityModelButton" type="button">Reset Model</button>
+            </div>
+            <div class="copy-status" id="maturityCopyStatus" hidden>Report copied.</div>
+          </form>
+
+          <aside class="maturity-results-panel" aria-live="polite">
+            <div class="maturity-summary-card">
+              <span class="eyebrow">Maturity Result</span>
+              <strong id="readinessIndex">0</strong>
+              <h2 id="maturityStage">Foundation</h2>
+              <p id="maturityNarrative"></p>
+            </div>
+
+            <div class="maturity-chart-card">
+              <div class="chart-heading">
+                <span class="eyebrow">Current vs Target</span>
+                <strong>Capability Radar</strong>
+              </div>
+              <svg id="radarChart" viewBox="0 0 320 320" role="img" aria-label="AI maturity radar chart"></svg>
+            </div>
+          </aside>
+        </section>
+
+        <section class="maturity-dashboard" aria-label="AI maturity visual dashboard">
+          <article class="maturity-dashboard-card">
+            <div class="chart-heading">
+              <span class="eyebrow">Gap View</span>
+              <strong>Where to Focus First</strong>
+            </div>
+            <div class="gap-chart" id="gapChart"></div>
+          </article>
+
+          <article class="maturity-dashboard-card">
+            <div class="chart-heading">
+              <span class="eyebrow">Heat Map</span>
+              <strong>Capability Strength</strong>
+            </div>
+            <div class="maturity-heatmap" id="maturityHeatmap"></div>
+          </article>
+        </section>
+
+        <section class="maturity-roadmap-shell" aria-label="AI maturity roadmap">
+          <div>
+            <span class="eyebrow">Excenor Roadmap</span>
+            <h2>Priority actions to move from maturity score to measurable value</h2>
+          </div>
+          <div class="maturity-roadmap-grid" id="maturityRoadmap"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="./ai-maturity-model.js"></script>
+  </body>
+</html>
