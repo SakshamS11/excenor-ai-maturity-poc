@@ -2009,18 +2009,20 @@ li {
 
 .maturity-heatmap {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
 }
 
 .heatmap-cell {
   display: grid;
   gap: 10px;
-  min-height: 240px;
-  padding: 14px;
+  min-width: 0;
+  min-height: 220px;
+  padding: 16px;
   border-radius: 8px;
   color: #fff;
   background: var(--excenor-red);
+  overflow: hidden;
 }
 
 .heatmap-cell.is-moderate {
@@ -2037,18 +2039,24 @@ li {
 .heatmap-cell p,
 .heatmap-cell small {
   display: block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .heatmap-cell strong {
   font-size: 13px;
+  line-height: 1.22;
 }
 
 .heatmap-score {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 10px;
   padding-top: 2px;
+  min-width: 0;
 }
 
 .heatmap-score b {
@@ -2058,6 +2066,7 @@ li {
 }
 
 .heatmap-score span {
+  max-width: 100%;
   padding: 5px 8px;
   border-radius: 999px;
   color: rgba(255, 255, 255, 0.92);
@@ -2070,9 +2079,9 @@ li {
 .heatmap-cell p {
   margin: 0;
   color: rgba(255, 255, 255, 0.94);
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 750;
-  line-height: 1.42;
+  line-height: 1.48;
 }
 
 .heatmap-cell span,
@@ -2084,7 +2093,7 @@ li {
 
 .heatmap-cell small {
   align-self: end;
-  line-height: 1.38;
+  line-height: 1.42;
 }
 
 .maturity-roadmap-shell {
@@ -2597,7 +2606,6 @@ li {
   .maturity-workbench,
   .maturity-dashboard,
   .maturity-roadmap-grid,
-  .maturity-heatmap,
   .maturity-answer-options,
   .ai-insight-grid {
     grid-template-columns: 1fr;
