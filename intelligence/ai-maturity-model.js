@@ -294,6 +294,51 @@ const maturityLevels = [
   },
 ];
 
+const heatmapGuidance = {
+  strategy: {
+    weak: "AI is likely still idea-led, with leadership alignment and investment logic not yet firm enough.",
+    moderate: "Leadership intent exists, but the business case, sequencing and decision cadence need sharper definition.",
+    strong: "Strategy is becoming a strength; the next challenge is keeping AI investment tied to measurable outcomes.",
+    focus: "Leadership alignment, value themes, roadmap governance and use-case investment logic.",
+  },
+  data: {
+    weak: "Data gaps may limit AI reliability, especially where quality, access, ownership or integration is unclear.",
+    moderate: "Core datasets appear usable, but readiness may vary by process, team or use-case priority.",
+    strong: "Data can support more advanced AI use cases if monitoring, privacy and lineage remain controlled.",
+    focus: "Data quality, ownership, integration, real-time visibility and trusted KPI baselines.",
+  },
+  governance: {
+    weak: "AI risk, privacy, cyber, approval and monitoring controls may not be ready for scaled deployment.",
+    moderate: "Governance is emerging, but controls need to become embedded into delivery and post-launch review.",
+    strong: "Governance can become a scaling enabler if it remains practical, auditable and business-owned.",
+    focus: "Responsible AI controls, human oversight, privacy, cyber, audit trail and model monitoring.",
+  },
+  technology: {
+    weak: "Technology constraints may force manual workarounds or prevent AI from integrating into workflows.",
+    moderate: "Some platforms and automation capability exist, but integration and deployment discipline need strengthening.",
+    strong: "The technology base can support controlled AI scaling where process design and data are ready.",
+    focus: "System integration, workflow automation, APIs, MLOps, dashboards and process intelligence.",
+  },
+  operatingModel: {
+    weak: "AI ownership may be fragmented across business, data, technology and risk teams.",
+    moderate: "Some delivery discipline exists, but cross-functional roles and scale governance need clarification.",
+    strong: "The operating model can support repeatable AI delivery if benefits and ownership stay visible.",
+    focus: "Process ownership, RACI, 5D delivery rhythm, PMO cadence and benefit accountability.",
+  },
+  people: {
+    weak: "Adoption risk is high if employees are not confident about how AI changes decisions and daily work.",
+    moderate: "Teams may be ready for guided use cases, but capability building and change routines need structure.",
+    strong: "People capability can accelerate AI adoption if learning is tied to live process improvements.",
+    focus: "AI literacy, role-based enablement, change adoption, champions and responsible-use confidence.",
+  },
+  value: {
+    weak: "AI activity may not yet be connected to measurable ROI, process outcomes or leadership visibility.",
+    moderate: "Use cases are emerging, but prioritization and value tracking need stronger discipline.",
+    strong: "Value management is becoming repeatable; the next step is scaling what demonstrably works.",
+    focus: "Use-case portfolio, value sizing, KPI tracking, pilot benefits and scale decisions.",
+  },
+};
+
 const contextForm = document.querySelector("#maturityContextForm");
 const assessmentShell = document.querySelector("#maturityAssessmentShell");
 const questionCard = document.querySelector("#maturityQuestionCard");
@@ -552,6 +597,29 @@ function getHeatClass(value) {
   return "is-weak";
 }
 
+function getHeatStatus(value) {
+  if (value >= 4) return "Strength";
+  if (value >= 3) return "Developing";
+  return "Priority Gap";
+}
+
+function getHeatSignal(pillar) {
+  const guidance = heatmapGuidance[pillar.id];
+  if (!guidance) {
+    return "";
+  }
+
+  if (pillar.current >= 4) {
+    return guidance.strong;
+  }
+
+  if (pillar.current >= 3) {
+    return guidance.moderate;
+  }
+
+  return guidance.weak;
+}
+
 function renderGapChart(pillarResults) {
   gapChart.replaceChildren();
 
@@ -574,12 +642,18 @@ function renderHeatmap(pillarResults) {
   maturityHeatmap.replaceChildren();
 
   pillarResults.forEach((pillar) => {
+    const guidance = heatmapGuidance[pillar.id];
     const item = document.createElement("div");
     item.className = `heatmap-cell ${getHeatClass(pillar.current)}`;
     item.innerHTML = `
       <strong>${pillar.label}</strong>
-      <span>Current ${pillar.current}/5</span>
-      <small>Target ${pillar.target}/5</small>
+      <div class="heatmap-score">
+        <b>${pillar.current}/5</b>
+        <span>${getHeatStatus(pillar.current)}</span>
+      </div>
+      <p>${escapeHtml(getHeatSignal(pillar))}</p>
+      <small>Focus: ${escapeHtml(guidance?.focus || pillar.description)}</small>
+      <small>Gap to target: ${pillar.gap.toFixed(1)}</small>
     `;
     maturityHeatmap.append(item);
   });
