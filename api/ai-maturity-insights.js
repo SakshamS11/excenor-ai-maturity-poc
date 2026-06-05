@@ -137,15 +137,20 @@ function buildSystemInstruction() {
   return `
 You are Excenor Global's AI Maturity Insight Advisor.
 
-Your job is to interpret a completed AI maturity questionnaire and produce a concise, practical advisory layer that sits alongside the scored report.
+Your job is to interpret a completed AI maturity questionnaire and produce a concise, practical advisory layer focused on how Excenor can help the organization achieve its AI goals.
 
 ${buildExcenorPromptSection()}
 
 Rules:
 - Stay specific to the user's industry, maturity stage, ambition, score gaps, and questionnaire answers.
-- Do not repeat the whole report. Add interpretation, likely implications, and practical next moves.
+- Do not repeat the whole report. Focus on help, goal achievement, and what Excenor would do next.
+- Make the executive insight read like an advisory note: "Here is what this result means for your goal, and how Excenor can help convert it into progress."
+- Priority moves must be action-oriented and explicitly connect to Excenor's 5D approach, capability building, governance, process excellence, AI use-case prioritization, or digital transformation support.
+- Industry lens must explain how Excenor would adapt support to the user's industry, not just describe industry trends.
+- Risks to validate must explain what Excenor would check before the client invests further.
+- The Excenor next step must be specific: name the recommended workshop, sprint, roadmap, pilot, or governance activity.
 - If the input is limited, infer likely issues and label them as working assumptions to validate.
-- Make Excenor the natural expert next step without sounding like a hard sell.
+- Make Excenor the natural expert partner for achieving the stated ambition without sounding like a hard sell.
 - Use premium consulting language. Practical, business-focused, calm, and concise.
 - Do not mention Gartner or copy any external maturity model language.
 - Do not invent guaranteed savings, case studies, client facts, or certifications.
@@ -207,24 +212,24 @@ function createDemoInsights(input) {
   const gap = Math.max((input.targetIndex || 0) - (input.readiness || 0), 0);
 
   return {
-    executiveInsight: `${company} is currently at the ${stage} stage with a readiness index of ${input.readiness}/100. The score suggests AI potential is visible, but reliable scale will depend on strengthening ${priorityText} before moving too quickly into tools or pilots.`,
-    maturityInterpretation: `The ${gap}-point gap to the target state should be treated as an execution and operating-model challenge, not only a technology gap. Excenor would validate where process standardization, data quality, governance, ownership, and adoption readiness are constraining value in the ${industry} context.`,
+    executiveInsight: `${company} is currently at the ${stage} stage with a readiness index of ${input.readiness}/100. The score suggests AI potential is visible, but achieving the stated goal will require a sharper path from ambition to governed use cases, measurable pilots, adoption and sustained value. Excenor can help convert this result into a practical transformation agenda instead of a disconnected AI experiment.`,
+    maturityInterpretation: `The ${gap}-point gap to the target state should be treated as an execution and operating-model gap, not only a technology gap. Excenor would help ${company} validate where ${priorityText} are limiting progress, then translate those findings into a prioritized AI roadmap for the ${industry} context.`,
     priorityMoves: [
-      `Run an Excenor-led AI maturity discovery workshop to align leadership on the highest-value ${industry} use cases and decision criteria.`,
-      `Validate the top gaps in ${priorityText} through process mapping, data-readiness review, governance checks, and stakeholder interviews.`,
-      "Select one controlled pilot where AI can improve visibility, prediction, cycle time, quality, or risk control with clear benefit tracking.",
+      `Run an Excenor-led AI maturity discovery workshop to align leadership on the goal, value pools, decision criteria and highest-value ${industry} use cases.`,
+      `Use Excenor's Diagnose phase to validate the top gaps in ${priorityText} through process mapping, data-readiness review, governance checks and stakeholder interviews.`,
+      "Design one controlled pilot with Excenor support so AI improves a measurable business outcome such as visibility, prediction, cycle time, quality, service consistency or risk control.",
     ],
     industryLens: [
-      `For ${industry}, AI opportunities should be tied to measurable operational outcomes such as speed, quality, service consistency, risk reduction, and leadership visibility.`,
-      "The most useful use cases will likely sit where process friction, fragmented data, repeated decisions, exceptions, or manual monitoring are already visible.",
-      "AI should be introduced with human oversight, privacy and cyber review, and a control plan so the organization avoids scaling weak process design.",
+      `For ${industry}, Excenor would anchor AI opportunities to measurable operational outcomes such as speed, quality, service consistency, risk reduction and leadership visibility.`,
+      "Excenor would look first at processes where friction, fragmented data, repeated decisions, exceptions or manual monitoring are already visible, because those areas usually reveal practical AI use cases.",
+      "Excenor would help introduce AI with human oversight, privacy and cyber review, process ownership and a control plan so the organization avoids scaling weak process design.",
     ],
     risksToValidate: [
-      "Whether the available data is complete, trusted, accessible, and sufficiently governed for AI-enabled decisions.",
-      "Whether process ownership and approval rights are clear enough to sustain an AI-enabled workflow after launch.",
-      "Whether teams have the practical capability, change support, and review cadence needed to adopt AI safely.",
+      "Excenor should validate whether the available data is complete, trusted, accessible and sufficiently governed for AI-enabled decisions.",
+      "Excenor should test whether process ownership and approval rights are clear enough to sustain an AI-enabled workflow after launch.",
+      "Excenor should assess whether teams have the practical capability, change support and review cadence needed to adopt AI safely.",
     ],
-    excenorNextStep: `The next practical step is an Excenor Discover and Diagnose sprint. Excenor can convert this questionnaire result into a validated AI maturity roadmap, prioritized use-case portfolio, governance model, pilot plan, and capability-building path.`,
+    excenorNextStep: `The next practical step is an Excenor Discover and Diagnose sprint. Excenor can help ${company} turn this questionnaire result into a validated AI maturity roadmap, prioritized use-case portfolio, governance model, pilot plan and capability-building path aligned to the stated goal.`,
     disclaimer:
       "These insights are AI-assisted and based on the questionnaire response. They should be validated by an Excenor expert before being used for client recommendations or implementation decisions.",
   };

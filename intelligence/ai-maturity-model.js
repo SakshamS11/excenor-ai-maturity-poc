@@ -764,25 +764,25 @@ function createClientFallbackInsights(model) {
   const gap = Math.max(model.targetIndex - model.readiness, 0);
 
   return {
-    executiveInsight: `${organization} is currently at the ${model.level.name} stage with a readiness index of ${model.readiness}/100. The result shows a practical AI opportunity, but the strongest value will come from strengthening ${priorityText} before scaling too many pilots.`,
-    maturityInterpretation: `The ${gap}-point gap to the target state should be read as an operating-model and execution-readiness gap. Excenor would validate where process standardization, data quality, governance, adoption, and benefit tracking are limiting AI scale in the ${industry} context.`,
+    executiveInsight: `${organization} is currently at the ${model.level.name} stage with a readiness index of ${model.readiness}/100. The result shows a practical AI opportunity, but achieving the stated ambition will require a sharper path from maturity gaps to governed use cases, measurable pilots, adoption and sustained value. Excenor can help turn this assessment into a focused transformation agenda.`,
+    maturityInterpretation: `The ${gap}-point gap to the target state should be read as an execution-readiness gap, not only a technology gap. Excenor would help validate where ${priorityText} are limiting progress, then convert the findings into a practical AI roadmap for the ${industry} context.`,
     priorityMoves: [
-      "Align leadership on the highest-value AI use cases, decision criteria, governance expectations and business outcomes.",
+      "Use an Excenor-led discovery workshop to align leadership on AI goals, value pools, use-case decision criteria and business outcomes.",
       `Validate the top gaps in ${priorityText} through Excenor's Discover and Diagnose approach before technology selection.`,
-      "Select one controlled pilot with clear KPIs, accountable owners, human oversight and benefit tracking.",
+      "Design one controlled pilot with Excenor support, clear KPIs, accountable owners, human oversight and benefit tracking.",
     ],
     industryLens: [
-      `In ${industry}, AI should be tied to measurable outcomes such as speed, quality, risk control, customer experience, productivity, or leadership visibility.`,
-      "The best early opportunities are likely where repeated decisions, manual monitoring, fragmented data, exceptions, or rework are already visible.",
-      "AI should be introduced only with the right data, cyber/privacy controls, process ownership and change adoption routines.",
+      `In ${industry}, Excenor would tie AI to measurable outcomes such as speed, quality, risk control, customer experience, productivity or leadership visibility.`,
+      "Excenor would look first where repeated decisions, manual monitoring, fragmented data, exceptions or rework are already visible.",
+      "Excenor would help introduce AI with the right data foundation, cyber/privacy controls, process ownership and change adoption routines.",
     ],
     risksToValidate: [
-      "Whether the data needed for priority use cases is complete, trusted, accessible and governed.",
-      "Whether process ownership and approval rights are clear enough to sustain AI-enabled workflows.",
-      "Whether teams have the capability, confidence and management cadence to adopt AI safely.",
+      "Excenor should validate whether the data needed for priority use cases is complete, trusted, accessible and governed.",
+      "Excenor should test whether process ownership and approval rights are clear enough to sustain AI-enabled workflows.",
+      "Excenor should assess whether teams have the capability, confidence and management cadence to adopt AI safely.",
     ],
     excenorNextStep:
-      "The next practical step is an Excenor Discover and Diagnose sprint to convert this assessment into a validated AI maturity roadmap, use-case portfolio, governance model, pilot plan and capability-building pathway.",
+      "The next practical step is an Excenor Discover and Diagnose sprint to convert this assessment into a validated AI maturity roadmap, use-case portfolio, governance model, pilot plan and capability-building pathway aligned to the organization's goals.",
     disclaimer:
       "These insights are AI-assisted and based on the questionnaire response. They should be validated by an Excenor expert before being used for client recommendations or implementation decisions.",
   };
@@ -801,16 +801,16 @@ function renderAiInsights(insights) {
   state.aiInsights = insights;
   aiInsightsContent.innerHTML = `
     <article class="ai-insight-card ai-insight-card-wide">
-      <span>Executive Insight</span>
+      <span>How Excenor Can Help</span>
       <p>${escapeHtml(insights.executiveInsight)}</p>
     </article>
     <article class="ai-insight-card ai-insight-card-wide">
-      <span>Maturity Interpretation</span>
+      <span>Path To Your Goal</span>
       <p>${escapeHtml(insights.maturityInterpretation)}</p>
     </article>
-    ${renderInsightList("Priority Moves", insights.priorityMoves || [])}
-    ${renderInsightList("Industry Lens", insights.industryLens || [])}
-    ${renderInsightList("Risks To Validate", insights.risksToValidate || [])}
+    ${renderInsightList("Excenor Priority Moves", insights.priorityMoves || [])}
+    ${renderInsightList("Industry-Specific Support", insights.industryLens || [])}
+    ${renderInsightList("What Excenor Should Validate", insights.risksToValidate || [])}
     <article class="ai-insight-card ai-insight-card-wide ai-insight-next-step">
       <span>Recommended Excenor Next Step</span>
       <p>${escapeHtml(insights.excenorNextStep)}</p>
@@ -962,13 +962,13 @@ function buildReportText() {
 
   const insights = state.aiInsights
     ? [
-        `Executive Insight: ${state.aiInsights.executiveInsight}`,
-        `Maturity Interpretation: ${state.aiInsights.maturityInterpretation}`,
-        "Priority Moves:",
+        `How Excenor Can Help: ${state.aiInsights.executiveInsight}`,
+        `Path To Your Goal: ${state.aiInsights.maturityInterpretation}`,
+        "Excenor Priority Moves:",
         ...(state.aiInsights.priorityMoves || []).map((item) => `- ${item}`),
-        "Industry Lens:",
+        "Industry-Specific Support:",
         ...(state.aiInsights.industryLens || []).map((item) => `- ${item}`),
-        "Risks To Validate:",
+        "What Excenor Should Validate:",
         ...(state.aiInsights.risksToValidate || []).map((item) => `- ${item}`),
         `Recommended Excenor Next Step: ${state.aiInsights.excenorNextStep}`,
       ]
