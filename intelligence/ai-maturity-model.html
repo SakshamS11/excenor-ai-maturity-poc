@@ -48,32 +48,32 @@
             <div class="agent-hero-card maturity-hero-card" aria-label="Maturity model preview">
               <span>Diagnostic Output</span>
               <div class="maturity-orbit" aria-hidden="true">
-                <strong id="heroScore">0</strong>
-                <small>Readiness Index</small>
+                <strong id="heroScore">--</strong>
+                <small>Final Index</small>
               </div>
               <p>Current maturity, target ambition, capability heat map, gap visualization and 30 / 60 / 90 day roadmap.</p>
             </div>
           </div>
         </header>
 
-        <section class="maturity-workbench" aria-label="AI maturity model workbench">
-          <form class="maturity-controls" id="maturityModelForm">
+        <section class="maturity-assessment-shell" id="maturityAssessmentShell" aria-label="AI maturity questionnaire">
+          <form class="maturity-controls maturity-context-card" id="maturityContextForm">
             <div>
               <span class="eyebrow">Enterprise Context</span>
-              <h2>Set the assessment context</h2>
+              <h2>Start the AI maturity assessment</h2>
               <p>
-                Add enough detail to make the roadmap useful. The model updates instantly as you adjust each pillar.
+                Share basic context first. You will then answer a guided questionnaire and receive the report at the end.
               </p>
             </div>
 
             <div class="form-grid">
               <label>
                 <span>Organization</span>
-                <input id="modelOrganization" name="organization" placeholder="Example: UrbanCart Retail" />
+                <input id="modelOrganization" name="organization" placeholder="Example: UrbanCart Retail" required />
               </label>
               <label>
                 <span>Industry</span>
-                <input id="modelIndustry" name="industry" placeholder="Example: Retail, Healthcare, Manufacturing" />
+                <input id="modelIndustry" name="industry" placeholder="Example: Retail, Healthcare, Manufacturing" required />
               </label>
               <label>
                 <span>AI Ambition</span>
@@ -94,16 +94,50 @@
               </label>
             </div>
 
-            <div class="maturity-pillar-list" id="pillarList" aria-label="AI maturity pillars"></div>
-
             <div class="agent-form-actions">
-              <button class="primary-button" id="copyMaturityReportButton" type="button">Copy Report</button>
-              <button class="secondary-button" id="resetMaturityModelButton" type="button">Reset Model</button>
+              <button class="primary-button" type="submit">Start Questions</button>
             </div>
-            <div class="copy-status" id="maturityCopyStatus" hidden>Report copied.</div>
           </form>
 
-          <aside class="maturity-results-panel" aria-live="polite">
+          <section class="maturity-question-card" id="maturityQuestionCard" hidden aria-live="polite">
+            <div class="maturity-question-topline">
+              <span class="eyebrow" id="questionPillar">Strategy</span>
+              <strong id="questionProgress">1 of 14</strong>
+            </div>
+            <div class="question-progress-track" aria-hidden="true">
+              <span id="questionProgressFill"></span>
+            </div>
+            <h2 id="questionText"></h2>
+            <p id="questionHelp"></p>
+            <div class="maturity-answer-options" id="answerOptions"></div>
+            <div class="agent-form-actions">
+              <button class="secondary-button" id="previousQuestionButton" type="button">Back</button>
+              <button class="secondary-button" id="restartMaturityQuestionsButton" type="button">Restart</button>
+            </div>
+          </section>
+        </section>
+
+        <section class="maturity-report-area" id="maturityReportArea" hidden aria-label="AI maturity report">
+          <section class="maturity-workbench" aria-label="AI maturity model report summary">
+            <div class="maturity-controls maturity-report-intro">
+              <div>
+                <span class="eyebrow">Generated Report</span>
+                <h2 id="reportTitle">AI maturity report</h2>
+                <p id="reportIntro">
+                  Your AI maturity report is ready. Review the visualizations, priority gaps and Excenor roadmap below.
+                </p>
+              </div>
+
+              <div class="maturity-pillar-list" id="pillarList" aria-label="AI maturity pillar summary"></div>
+
+              <div class="agent-form-actions">
+                <button class="primary-button" id="copyMaturityReportButton" type="button">Copy Report</button>
+                <button class="secondary-button" id="resetMaturityModelButton" type="button">Start New Assessment</button>
+              </div>
+              <div class="copy-status" id="maturityCopyStatus" hidden>Report copied.</div>
+            </div>
+
+            <aside class="maturity-results-panel" aria-live="polite">
             <div class="maturity-summary-card">
               <span class="eyebrow">Maturity Result</span>
               <strong id="readinessIndex">0</strong>
@@ -118,33 +152,34 @@
               </div>
               <svg id="radarChart" viewBox="0 0 320 320" role="img" aria-label="AI maturity radar chart"></svg>
             </div>
-          </aside>
-        </section>
+            </aside>
+          </section>
 
-        <section class="maturity-dashboard" aria-label="AI maturity visual dashboard">
-          <article class="maturity-dashboard-card">
-            <div class="chart-heading">
-              <span class="eyebrow">Gap View</span>
-              <strong>Where to Focus First</strong>
+          <section class="maturity-dashboard" aria-label="AI maturity visual dashboard">
+            <article class="maturity-dashboard-card">
+              <div class="chart-heading">
+                <span class="eyebrow">Gap View</span>
+                <strong>Where to Focus First</strong>
+              </div>
+              <div class="gap-chart" id="gapChart"></div>
+            </article>
+
+            <article class="maturity-dashboard-card">
+              <div class="chart-heading">
+                <span class="eyebrow">Heat Map</span>
+                <strong>Capability Strength</strong>
+              </div>
+              <div class="maturity-heatmap" id="maturityHeatmap"></div>
+            </article>
+          </section>
+
+          <section class="maturity-roadmap-shell" aria-label="AI maturity roadmap">
+            <div>
+              <span class="eyebrow">Excenor Roadmap</span>
+              <h2>Priority actions to move from maturity score to measurable value</h2>
             </div>
-            <div class="gap-chart" id="gapChart"></div>
-          </article>
-
-          <article class="maturity-dashboard-card">
-            <div class="chart-heading">
-              <span class="eyebrow">Heat Map</span>
-              <strong>Capability Strength</strong>
-            </div>
-            <div class="maturity-heatmap" id="maturityHeatmap"></div>
-          </article>
-        </section>
-
-        <section class="maturity-roadmap-shell" aria-label="AI maturity roadmap">
-          <div>
-            <span class="eyebrow">Excenor Roadmap</span>
-            <h2>Priority actions to move from maturity score to measurable value</h2>
-          </div>
-          <div class="maturity-roadmap-grid" id="maturityRoadmap"></div>
+            <div class="maturity-roadmap-grid" id="maturityRoadmap"></div>
+          </section>
         </section>
       </section>
     </main>

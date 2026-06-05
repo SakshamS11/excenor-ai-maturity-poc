@@ -71,6 +71,191 @@ const maturityPillars = [
   },
 ];
 
+const maturityQuestions = [
+  {
+    id: "strategy_alignment",
+    pillar: "strategy",
+    text: "How clearly is AI linked to business priorities, growth, efficiency, customer experience or risk reduction?",
+    help: "Assess whether AI is a leadership agenda or only a scattered experimentation topic.",
+    options: [
+      "AI is not linked to business priorities",
+      "AI is discussed, but goals are informal",
+      "Some business priorities are connected to AI ideas",
+      "AI priorities are documented and leadership-backed",
+      "AI priorities are funded, measured and reviewed by leadership",
+    ],
+  },
+  {
+    id: "strategy_roadmap",
+    pillar: "strategy",
+    text: "How mature is your AI roadmap and investment logic?",
+    help: "Look for sequencing, value cases, ownership, investment decisions and review cadence.",
+    options: [
+      "No roadmap or investment logic exists",
+      "Roadmap is being explored without clear ownership",
+      "A basic roadmap exists for selected use cases",
+      "Roadmap links use cases, owners, investment and outcomes",
+      "Roadmap is governed, funded and refreshed based on measured impact",
+    ],
+  },
+  {
+    id: "data_foundation",
+    pillar: "data",
+    text: "How ready is your data foundation for AI use cases?",
+    help: "Consider quality, access, integration, master data, ownership and consistency.",
+    options: [
+      "Data is fragmented, inconsistent or difficult to access",
+      "Useful data exists, but quality and ownership are weak",
+      "Core datasets are available with known gaps",
+      "Critical data is reliable, accessible and governed",
+      "Data is connected, real-time where needed and trusted for AI decisions",
+    ],
+  },
+  {
+    id: "data_monitoring",
+    pillar: "data",
+    text: "How well can you measure process performance, variation and early warning signals?",
+    help: "Strong AI maturity needs visibility into cycle time, defects, exceptions, drift and risk signals.",
+    options: [
+      "Performance data is mostly manual or missing",
+      "Basic reports exist but do not show root causes",
+      "Some KPIs and dashboards exist for key processes",
+      "Dashboards show trends, exceptions and ownership",
+      "Real-time monitoring supports prediction, anomaly detection and preventive action",
+    ],
+  },
+  {
+    id: "governance_policy",
+    pillar: "governance",
+    text: "How mature are your responsible AI, privacy, cyber and compliance controls?",
+    help: "Consider policies, approvals, audit trails, access, privacy, model risk and human accountability.",
+    options: [
+      "No formal AI governance controls exist",
+      "Basic privacy or cyber controls exist but not AI-specific",
+      "Early AI guidelines exist for selected teams",
+      "Responsible AI controls and approval paths are defined",
+      "Controls are monitored, audited and embedded into AI delivery",
+    ],
+  },
+  {
+    id: "governance_monitoring",
+    pillar: "governance",
+    text: "How well do you monitor AI performance, risk, drift and adoption after launch?",
+    help: "AI initiatives need control after deployment, not only during approval.",
+    options: [
+      "Post-launch monitoring is not defined",
+      "Monitoring is informal and reactive",
+      "Basic metrics are reviewed for some pilots",
+      "Business, risk and adoption metrics are reviewed regularly",
+      "Model performance, drift, controls and value are continuously governed",
+    ],
+  },
+  {
+    id: "technology_integration",
+    pillar: "technology",
+    text: "How ready is your technology stack for AI integration and automation?",
+    help: "Assess APIs, cloud/data platforms, workflow tools, security, deployment and MLOps readiness.",
+    options: [
+      "Systems are disconnected or mostly manual",
+      "Some tools exist but integration is limited",
+      "Selected systems support reporting and automation",
+      "Core systems are integrated and automation-ready",
+      "Modern platforms, APIs and MLOps support scalable AI deployment",
+    ],
+  },
+  {
+    id: "technology_process_intelligence",
+    pillar: "technology",
+    text: "How well do you use process mining, workflow analytics or digital controls?",
+    help: "Mature organizations can see actual process behavior before automating.",
+    options: [
+      "No process intelligence tools are used",
+      "Process visibility depends mainly on manual mapping",
+      "Dashboards exist but process-mining depth is limited",
+      "Process intelligence informs workflow redesign and automation",
+      "Closed-loop monitoring supports mine-first-automate-later improvement",
+    ],
+  },
+  {
+    id: "operating_ownership",
+    pillar: "operatingModel",
+    text: "How clear is business ownership for AI use cases and process outcomes?",
+    help: "AI value depends on process owners, data owners, IT, risk and business sponsors working together.",
+    options: [
+      "Ownership is unclear or fragmented",
+      "Ownership is informal and person-dependent",
+      "Some use cases have named owners",
+      "Business, data, technology and risk roles are defined",
+      "Cross-functional ownership is embedded into delivery governance",
+    ],
+  },
+  {
+    id: "operating_delivery",
+    pillar: "operatingModel",
+    text: "How disciplined is your AI delivery model from discovery to scale?",
+    help: "Consider prioritization, pilots, change management, PMO governance and benefit tracking.",
+    options: [
+      "AI delivery is ad hoc",
+      "Pilots happen but without consistent method",
+      "A repeatable delivery approach is emerging",
+      "Use cases move through defined discovery, pilot and rollout stages",
+      "Delivery is governed, measured and scaled through an enterprise operating model",
+    ],
+  },
+  {
+    id: "people_literacy",
+    pillar: "people",
+    text: "How prepared are employees and leaders to use AI responsibly and effectively?",
+    help: "Assess literacy, confidence, ethical use, workflow adoption and role clarity.",
+    options: [
+      "AI awareness is very limited",
+      "People are curious but unsure how to use AI safely",
+      "Some teams can use AI for basic productivity",
+      "Role-based AI guidance and training are in place",
+      "AI capability is embedded into roles, decision routines and improvement culture",
+    ],
+  },
+  {
+    id: "people_change",
+    pillar: "people",
+    text: "How mature is your change management and capability-building approach for AI?",
+    help: "AI maturity rises when people can adopt new workflows, not only new tools.",
+    options: [
+      "No structured change approach exists",
+      "Change is handled through communication only",
+      "Training exists but is not tied to adoption metrics",
+      "Change plans, champions and capability programs support key use cases",
+      "Continuous capability building supports citizen developers and human-AI collaboration",
+    ],
+  },
+  {
+    id: "value_prioritization",
+    pillar: "value",
+    text: "How well do you prioritize AI use cases by value, feasibility, data readiness and risk?",
+    help: "Strong maturity means choosing use cases that can produce measurable business outcomes.",
+    options: [
+      "Use cases are not formally identified",
+      "Ideas exist but are not prioritized consistently",
+      "Use cases are prioritized with basic value and feasibility criteria",
+      "Use cases are ranked by value, readiness, risk and process impact",
+      "Portfolio decisions are continuously optimized based on measurable value",
+    ],
+  },
+  {
+    id: "value_realization",
+    pillar: "value",
+    text: "How consistently do AI initiatives demonstrate measurable value after deployment?",
+    help: "Look for ROI, cycle time, quality, cost-to-serve, risk reduction, customer experience and leadership visibility.",
+    options: [
+      "Value is not measured",
+      "Value is described qualitatively but rarely tracked",
+      "Some pilots track basic success metrics",
+      "Deployed use cases track business outcomes and adoption",
+      "AI value is measured, reported and used to guide scale decisions",
+    ],
+  },
+];
+
 const maturityLevels = [
   {
     min: 0,
@@ -109,6 +294,18 @@ const maturityLevels = [
   },
 ];
 
+const contextForm = document.querySelector("#maturityContextForm");
+const assessmentShell = document.querySelector("#maturityAssessmentShell");
+const questionCard = document.querySelector("#maturityQuestionCard");
+const questionPillar = document.querySelector("#questionPillar");
+const questionProgress = document.querySelector("#questionProgress");
+const questionProgressFill = document.querySelector("#questionProgressFill");
+const questionText = document.querySelector("#questionText");
+const questionHelp = document.querySelector("#questionHelp");
+const answerOptions = document.querySelector("#answerOptions");
+const previousButton = document.querySelector("#previousQuestionButton");
+const restartQuestionsButton = document.querySelector("#restartMaturityQuestionsButton");
+const reportArea = document.querySelector("#maturityReportArea");
 const pillarList = document.querySelector("#pillarList");
 const organizationInput = document.querySelector("#modelOrganization");
 const industryInput = document.querySelector("#modelIndustry");
@@ -125,33 +322,68 @@ const maturityRoadmap = document.querySelector("#maturityRoadmap");
 const copyButton = document.querySelector("#copyMaturityReportButton");
 const resetButton = document.querySelector("#resetMaturityModelButton");
 const copyStatus = document.querySelector("#maturityCopyStatus");
+const reportTitle = document.querySelector("#reportTitle");
+const reportIntro = document.querySelector("#reportIntro");
 
 const state = {
-  pillars: Object.fromEntries(
-    maturityPillars.map((pillar) => [
-      pillar.id,
-      {
-        current: 2,
-        target: 4,
-      },
-    ])
-  ),
+  currentQuestion: 0,
+  answers: {},
+  context: {
+    organization: "",
+    industry: "",
+    ambition: "",
+    horizon: "",
+  },
 };
+
+function getPillar(id) {
+  return maturityPillars.find((pillar) => pillar.id === id);
+}
 
 function getLevel(score) {
   return maturityLevels.find((level) => score >= level.min && score <= level.max) || maturityLevels[0];
 }
 
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (character) => {
+    return {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    }[character];
+  });
+}
+
+function getTargetForPillar(current, pillarId) {
+  const ambition = state.context.ambition || ambitionInput.value;
+  const horizon = state.context.horizon || horizonInput.value;
+  const ambitionLift = ambition.includes("business excellence")
+    ? 2
+    : ambition.includes("predictive")
+      ? 2
+      : ambition.includes("Scale")
+        ? 1.5
+        : 1;
+  const horizonLift = horizon === "12 months" ? 0.5 : horizon === "6 months" ? 0.25 : 0;
+  const criticalLift = ["strategy", "data", "governance", "value"].includes(pillarId) ? 0.25 : 0;
+  return Math.min(5, Math.max(current, Math.ceil(current + ambitionLift + horizonLift + criticalLift)));
+}
+
 function calculateModel() {
   const pillarResults = maturityPillars.map((pillar) => {
-    const values = state.pillars[pillar.id];
-    const currentScore = (values.current / 5) * pillar.weight;
-    const targetScore = (values.target / 5) * pillar.weight;
-    const gap = Math.max(values.target - values.current, 0);
+    const questionSet = maturityQuestions.filter((question) => question.pillar === pillar.id);
+    const total = questionSet.reduce((sum, question) => sum + (state.answers[question.id] || 0), 0);
+    const current = questionSet.length ? Math.round((total / questionSet.length) * 10) / 10 : 0;
+    const target = getTargetForPillar(current, pillar.id);
+    const currentScore = (current / 5) * pillar.weight;
+    const targetScore = (target / 5) * pillar.weight;
+    const gap = Math.max(target - current, 0);
     return {
       ...pillar,
-      current: values.current,
-      target: values.target,
+      current,
+      target,
       currentScore,
       targetScore,
       gap,
@@ -174,13 +406,63 @@ function calculateModel() {
   };
 }
 
-function renderPillars() {
+function renderQuestion() {
+  const question = maturityQuestions[state.currentQuestion];
+  const pillar = getPillar(question.pillar);
+  const progress = (state.currentQuestion / maturityQuestions.length) * 100;
+
+  questionPillar.textContent = pillar.label;
+  questionProgress.textContent = `${state.currentQuestion + 1} of ${maturityQuestions.length}`;
+  questionProgressFill.style.width = `${progress}%`;
+  questionText.textContent = question.text;
+  questionHelp.textContent = question.help;
+  previousButton.disabled = state.currentQuestion === 0;
+  answerOptions.replaceChildren();
+
+  question.options.forEach((option, index) => {
+    const value = index + 1;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "maturity-answer-card";
+    const isSelected = state.answers[question.id] === value;
+    button.classList.toggle("is-selected", isSelected);
+    button.setAttribute("aria-pressed", String(isSelected));
+    button.innerHTML = `
+      <strong>${value}</strong>
+      <span>${escapeHtml(option)}</span>
+    `;
+    button.addEventListener("click", () => answerQuestion(question.id, value));
+    answerOptions.append(button);
+  });
+}
+
+function answerQuestion(questionId, value) {
+  state.answers[questionId] = value;
+
+  if (state.currentQuestion < maturityQuestions.length - 1) {
+    state.currentQuestion += 1;
+    renderQuestion();
+    return;
+  }
+
+  showReport();
+}
+
+function showPreviousQuestion() {
+  if (state.currentQuestion === 0) {
+    return;
+  }
+
+  state.currentQuestion -= 1;
+  renderQuestion();
+}
+
+function renderPillars(pillarResults) {
   pillarList.replaceChildren();
 
-  maturityPillars.forEach((pillar) => {
-    const values = state.pillars[pillar.id];
+  pillarResults.forEach((pillar) => {
     const card = document.createElement("article");
-    card.className = "maturity-pillar-card";
+    card.className = "maturity-pillar-card maturity-pillar-summary-card";
     card.innerHTML = `
       <div class="maturity-pillar-heading">
         <div>
@@ -189,17 +471,10 @@ function renderPillars() {
         </div>
         <span>${pillar.weight}%</span>
       </div>
-      <div class="maturity-slider-row">
-        <label>
-          <span>Current</span>
-          <input type="range" min="1" max="5" value="${values.current}" data-pillar="${pillar.id}" data-kind="current" />
-          <small>${values.current}/5</small>
-        </label>
-        <label>
-          <span>Target</span>
-          <input type="range" min="1" max="5" value="${values.target}" data-pillar="${pillar.id}" data-kind="target" />
-          <small>${values.target}/5</small>
-        </label>
+      <div class="pillar-score-pair">
+        <span>Current <strong>${pillar.current}/5</strong></span>
+        <span>Target <strong>${pillar.target}/5</strong></span>
+        <span>Gap <strong>${pillar.gap.toFixed(1)}</strong></span>
       </div>
     `;
     pillarList.append(card);
@@ -283,7 +558,7 @@ function renderGapChart(pillarResults) {
       row.innerHTML = `
         <strong>${pillar.label}</strong>
         <div class="gap-track"><span style="width: ${(pillar.gap / 4) * 100}%"></span></div>
-        <small>${pillar.gap} level gap</small>
+        <small>${pillar.gap.toFixed(1)} gap</small>
       `;
       gapChart.append(row);
     });
@@ -306,10 +581,10 @@ function renderHeatmap(pillarResults) {
 
 function renderRoadmap(model) {
   const top = model.prioritized.slice(0, 3);
-  const organization = organizationInput.value.trim() || "the organization";
-  const industry = industryInput.value.trim() || "the selected industry";
-  const horizon = horizonInput.value;
-  const ambition = ambitionInput.value;
+  const organization = state.context.organization || "the organization";
+  const industry = state.context.industry || "the selected industry";
+  const horizon = state.context.horizon;
+  const ambition = state.context.ambition;
 
   const phases = [
     {
@@ -344,48 +619,90 @@ function renderRoadmap(model) {
     article.className = "roadmap-phase-card";
     article.innerHTML = `
       <span>${phase.title}</span>
-      <p>${phase.body}</p>
-      <ul>${phase.points.map((point) => `<li>${point}</li>`).join("")}</ul>
+      <p>${escapeHtml(phase.body)}</p>
+      <ul>${phase.points.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}</ul>
     `;
     maturityRoadmap.append(article);
   });
 }
 
-function updateModel() {
+function renderReport() {
   const model = calculateModel();
+  const organization = state.context.organization || "your organization";
   readinessIndex.textContent = model.readiness;
   heroScore.textContent = model.readiness;
   maturityStage.textContent = model.level.name;
+  reportTitle.textContent = `${organization} AI maturity report`;
+  reportIntro.textContent = `Generated from ${maturityQuestions.length} guided questions across seven Excenor maturity pillars.`;
   maturityNarrative.textContent = `${model.level.narrative} Target index is ${model.targetIndex}/100, leaving a ${Math.max(
     model.targetIndex - model.readiness,
     0
   )}-point maturity gap.`;
 
+  renderPillars(model.pillarResults);
   renderRadar(model.pillarResults);
   renderGapChart(model.pillarResults);
   renderHeatmap(model.pillarResults);
   renderRoadmap(model);
 }
 
+function showReport() {
+  const firstUnanswered = maturityQuestions.findIndex((question) => !state.answers[question.id]);
+  if (firstUnanswered >= 0) {
+    state.currentQuestion = firstUnanswered;
+    renderQuestion();
+    return;
+  }
+
+  questionProgressFill.style.width = "100%";
+  assessmentShell.hidden = true;
+  reportArea.hidden = false;
+  renderReport();
+  reportArea.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function startQuestions() {
+  state.context = {
+    organization: organizationInput.value.trim(),
+    industry: industryInput.value.trim(),
+    ambition: ambitionInput.value,
+    horizon: horizonInput.value,
+  };
+  state.currentQuestion = 0;
+  state.answers = {};
+  contextForm.hidden = true;
+  questionCard.hidden = false;
+  reportArea.hidden = true;
+  heroScore.textContent = "--";
+  renderQuestion();
+}
+
 function resetModel() {
-  maturityPillars.forEach((pillar) => {
-    state.pillars[pillar.id] = { current: 2, target: 4 };
-  });
-  organizationInput.value = "";
-  industryInput.value = "";
-  ambitionInput.value = "Improve productivity and service visibility";
-  horizonInput.value = "90 days";
-  renderPillars();
-  updateModel();
+  state.currentQuestion = 0;
+  state.answers = {};
+  state.context = {
+    organization: "",
+    industry: "",
+    ambition: "",
+    horizon: "",
+  };
+  contextForm.reset();
+  contextForm.hidden = false;
+  assessmentShell.hidden = false;
+  questionCard.hidden = true;
+  reportArea.hidden = true;
+  copyStatus.hidden = true;
+  heroScore.textContent = "--";
+  organizationInput.focus();
 }
 
 function buildReportText() {
   const model = calculateModel();
   const context = [
-    `Organization: ${organizationInput.value.trim() || "Not provided"}`,
-    `Industry: ${industryInput.value.trim() || "Not provided"}`,
-    `AI Ambition: ${ambitionInput.value}`,
-    `Roadmap Horizon: ${horizonInput.value}`,
+    `Organization: ${state.context.organization || "Not provided"}`,
+    `Industry: ${state.context.industry || "Not provided"}`,
+    `AI Ambition: ${state.context.ambition}`,
+    `Roadmap Horizon: ${state.context.horizon}`,
     `Readiness Index: ${model.readiness}/100`,
     `Target Index: ${model.targetIndex}/100`,
     `Maturity Stage: ${model.level.name}`,
@@ -393,7 +710,9 @@ function buildReportText() {
   ];
 
   const pillars = model.pillarResults.map((pillar) => {
-    return `${pillar.label}: current ${pillar.current}/5, target ${pillar.target}/5, gap ${pillar.gap}. ${pillar.description}`;
+    return `${pillar.label}: current ${pillar.current}/5, target ${pillar.target}/5, gap ${pillar.gap.toFixed(
+      1
+    )}. ${pillar.description}`;
   });
 
   const priorities = model.prioritized.slice(0, 3).flatMap((pillar) => [
@@ -401,9 +720,16 @@ function buildReportText() {
     ...pillar.actions.map((action) => `- ${action}`),
   ]);
 
+  const answers = maturityQuestions.map((question) => {
+    const answer = state.answers[question.id];
+    return `${question.text}\nAnswer: ${answer}/5 - ${question.options[answer - 1]}`;
+  });
+
   return [
     "Excenor AI Maturity Model Report",
     context.join("\n"),
+    "Questionnaire Responses",
+    answers.join("\n\n"),
     "Capability Scores",
     pillars.join("\n"),
     "Priority Roadmap",
@@ -433,25 +759,12 @@ async function copyReport() {
   }, 1800);
 }
 
-pillarList.addEventListener("input", (event) => {
-  if (!event.target.matches("input[type='range']")) {
-    return;
-  }
-
-  const pillar = event.target.dataset.pillar;
-  const kind = event.target.dataset.kind;
-  state.pillars[pillar][kind] = Number(event.target.value);
-  renderPillars();
-  updateModel();
+contextForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  startQuestions();
 });
 
-[organizationInput, industryInput, ambitionInput, horizonInput].forEach((field) => {
-  field.addEventListener("input", updateModel);
-  field.addEventListener("change", updateModel);
-});
-
+previousButton.addEventListener("click", showPreviousQuestion);
+restartQuestionsButton.addEventListener("click", resetModel);
 copyButton.addEventListener("click", copyReport);
 resetButton.addEventListener("click", resetModel);
-
-renderPillars();
-updateModel();
