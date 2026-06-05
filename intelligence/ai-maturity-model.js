@@ -319,6 +319,7 @@ const radarChart = document.querySelector("#radarChart");
 const gapChart = document.querySelector("#gapChart");
 const maturityHeatmap = document.querySelector("#maturityHeatmap");
 const maturityRoadmap = document.querySelector("#maturityRoadmap");
+const roadmapTitle = document.querySelector("#roadmapTitle");
 const copyButton = document.querySelector("#copyMaturityReportButton");
 const resetButton = document.querySelector("#resetMaturityModelButton");
 const copyStatus = document.querySelector("#maturityCopyStatus");
@@ -584,16 +585,31 @@ function renderHeatmap(pillarResults) {
   });
 }
 
+function getRoadmapPhases(horizon) {
+  if (horizon === "6 months") {
+    return ["0-2 Months", "3-4 Months", "5-6 Months"];
+  }
+
+  if (horizon === "12 months") {
+    return ["0-3 Months", "4-6 Months", "7-12 Months"];
+  }
+
+  return ["0-30 Days", "31-60 Days", "61-90 Days"];
+}
+
 function renderRoadmap(model) {
   const top = model.prioritized.slice(0, 3);
   const organization = state.context.organization || "the organization";
   const industry = state.context.industry || "the selected industry";
   const horizon = state.context.horizon;
   const ambition = state.context.ambition;
+  const phaseTitles = getRoadmapPhases(horizon);
+
+  roadmapTitle.textContent = `Priority actions for the ${horizon} AI maturity roadmap`;
 
   const phases = [
     {
-      title: "0-30 Days",
+      title: phaseTitles[0],
       body: `Run an Excenor Discover and Diagnose sprint for ${organization}, focused on ${top
         .map((pillar) => pillar.label)
         .join(", ")} in the ${industry} context.`,
@@ -603,12 +619,12 @@ function renderRoadmap(model) {
       ],
     },
     {
-      title: "31-60 Days",
+      title: phaseTitles[1],
       body: `Design the operating model and use-case portfolio needed to ${ambition.toLowerCase()}.`,
       points: top.flatMap((pillar) => pillar.actions.slice(0, 1)),
     },
     {
-      title: "61-90 Days",
+      title: phaseTitles[2],
       body: `Deploy a controlled pilot and demonstrate KPI movement within the ${horizon} roadmap horizon.`,
       points: [
         "Track benefits through leadership dashboards and governance cadence.",
