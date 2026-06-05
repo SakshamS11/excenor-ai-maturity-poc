@@ -764,8 +764,9 @@ function createClientFallbackInsights(model) {
   const gap = Math.max(model.targetIndex - model.readiness, 0);
 
   return {
-    executiveInsight: `${organization} is currently at the ${model.level.name} stage with a readiness index of ${model.readiness}/100. The result shows a practical AI opportunity, but achieving the stated ambition will require a sharper path from maturity gaps to governed use cases, measurable pilots, adoption and sustained value. Excenor can help turn this assessment into a focused transformation agenda.`,
-    maturityInterpretation: `The ${gap}-point gap to the target state should be read as an execution-readiness gap, not only a technology gap. Excenor would help validate where ${priorityText} are limiting progress, then convert the findings into a practical AI roadmap for the ${industry} context.`,
+    problemDiagnosis: `${organization}'s AI maturity result points to a practical execution problem: AI ambition is visible, but the organization may not yet have enough strength in ${priorityText} to turn ideas into governed, measurable and scalable use cases. In the ${industry} context, this can show up as scattered pilots, unclear ownership, weak data confidence, slow decision-making, limited adoption, or difficulty proving value.`,
+    executiveInsight: `${organization} is currently at the ${model.level.name} stage with a readiness index of ${model.readiness}/100. The most important issue is not whether AI has potential; it is whether the organization can convert that potential into business outcomes through the right process focus, data foundation, governance, people readiness and value tracking.`,
+    maturityInterpretation: `The ${gap}-point gap to the target state should be read as an execution-readiness gap, not only a technology gap. Once the problem is validated, Excenor can help convert the findings into a practical AI roadmap for the ${industry} context.`,
     priorityMoves: [
       "Use an Excenor-led discovery workshop to align leadership on AI goals, value pools, use-case decision criteria and business outcomes.",
       `Validate the top gaps in ${priorityText} through Excenor's Discover and Diagnose approach before technology selection.`,
@@ -801,7 +802,11 @@ function renderAiInsights(insights) {
   state.aiInsights = insights;
   aiInsightsContent.innerHTML = `
     <article class="ai-insight-card ai-insight-card-wide">
-      <span>How Excenor Can Help</span>
+      <span>Problem Diagnosis</span>
+      <p>${escapeHtml(insights.problemDiagnosis || insights.executiveInsight)}</p>
+    </article>
+    <article class="ai-insight-card ai-insight-card-wide">
+      <span>What This Means</span>
       <p>${escapeHtml(insights.executiveInsight)}</p>
     </article>
     <article class="ai-insight-card ai-insight-card-wide">
@@ -962,7 +967,8 @@ function buildReportText() {
 
   const insights = state.aiInsights
     ? [
-        `How Excenor Can Help: ${state.aiInsights.executiveInsight}`,
+        `Problem Diagnosis: ${state.aiInsights.problemDiagnosis || state.aiInsights.executiveInsight}`,
+        `What This Means: ${state.aiInsights.executiveInsight}`,
         `Path To Your Goal: ${state.aiInsights.maturityInterpretation}`,
         "Excenor Priority Moves:",
         ...(state.aiInsights.priorityMoves || []).map((item) => `- ${item}`),

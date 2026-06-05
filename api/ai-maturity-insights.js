@@ -137,14 +137,18 @@ function buildSystemInstruction() {
   return `
 You are Excenor Global's AI Maturity Insight Advisor.
 
-Your job is to interpret a completed AI maturity questionnaire and produce a concise, practical advisory layer focused on how Excenor can help the organization achieve its AI goals.
+Your job is to interpret a completed AI maturity questionnaire and produce a concise, practical advisory layer.
+
+Start by describing the user's problem clearly in business terms. Only after the problem is well framed should you explain how Excenor can help the organization achieve its AI goals.
 
 ${buildExcenorPromptSection()}
 
 Rules:
 - Stay specific to the user's industry, maturity stage, ambition, score gaps, and questionnaire answers.
-- Do not repeat the whole report. Focus on help, goal achievement, and what Excenor would do next.
-- Make the executive insight read like an advisory note: "Here is what this result means for your goal, and how Excenor can help convert it into progress."
+- Do not repeat the whole report. Diagnose what the score pattern means, why it may be blocking the user's goal, and what should be validated next.
+- The first section must describe the user's likely problem well: visible symptoms, underlying capability gaps, business consequences, and why the issue matters now.
+- Do not start with a sales pitch. Build credibility by showing that Excenor understands the problem before explaining support.
+- Make the executive insight read like an advisory note: "Here is what this problem means for your goal, and what must change to make progress."
 - Priority moves must be action-oriented and explicitly connect to Excenor's 5D approach, capability building, governance, process excellence, AI use-case prioritization, or digital transformation support.
 - Industry lens must explain how Excenor would adapt support to the user's industry, not just describe industry trends.
 - Risks to validate must explain what Excenor would check before the client invests further.
@@ -159,6 +163,7 @@ Rules:
 Return only valid JSON. No Markdown. No surrounding commentary.
 Use exactly this JSON shape:
 {
+  "problemDiagnosis": "string",
   "executiveInsight": "string",
   "maturityInterpretation": "string",
   "priorityMoves": ["string", "string", "string"],
@@ -174,6 +179,7 @@ function normalizeInsights(insights, input) {
   const fallback = createDemoInsights(input);
 
   return {
+    problemDiagnosis: asString(insights.problemDiagnosis, fallback.problemDiagnosis),
     executiveInsight: asString(insights.executiveInsight, fallback.executiveInsight),
     maturityInterpretation: asString(insights.maturityInterpretation, fallback.maturityInterpretation),
     priorityMoves: asArray(insights.priorityMoves, fallback.priorityMoves, 3),
@@ -212,8 +218,9 @@ function createDemoInsights(input) {
   const gap = Math.max((input.targetIndex || 0) - (input.readiness || 0), 0);
 
   return {
-    executiveInsight: `${company} is currently at the ${stage} stage with a readiness index of ${input.readiness}/100. The score suggests AI potential is visible, but achieving the stated goal will require a sharper path from ambition to governed use cases, measurable pilots, adoption and sustained value. Excenor can help convert this result into a practical transformation agenda instead of a disconnected AI experiment.`,
-    maturityInterpretation: `The ${gap}-point gap to the target state should be treated as an execution and operating-model gap, not only a technology gap. Excenor would help ${company} validate where ${priorityText} are limiting progress, then translate those findings into a prioritized AI roadmap for the ${industry} context.`,
+    problemDiagnosis: `${company}'s AI maturity result points to a practical execution problem: AI ambition is visible, but the organization may not yet have enough strength in ${priorityText} to turn ideas into governed, measurable and scalable use cases. In the ${industry} context, this can show up as scattered pilots, unclear ownership, weak data confidence, slow decision-making, limited adoption, or difficulty proving value.`,
+    executiveInsight: `${company} is currently at the ${stage} stage with a readiness index of ${input.readiness}/100. The most important issue is not whether AI has potential; it is whether the organization can convert that potential into business outcomes through the right process focus, data foundation, governance, people readiness and value tracking.`,
+    maturityInterpretation: `The ${gap}-point gap to the target state should be treated as an execution and operating-model gap, not only a technology gap. Once the problem is validated, Excenor can help ${company} translate the findings into a prioritized AI roadmap for the ${industry} context.`,
     priorityMoves: [
       `Run an Excenor-led AI maturity discovery workshop to align leadership on the goal, value pools, decision criteria and highest-value ${industry} use cases.`,
       `Use Excenor's Diagnose phase to validate the top gaps in ${priorityText} through process mapping, data-readiness review, governance checks and stakeholder interviews.`,
